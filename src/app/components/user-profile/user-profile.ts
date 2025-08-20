@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {TicketingUserDto} from '../../models/ticketingUserDto';
 import {FormsModule} from '@angular/forms';
 import {ButtonDirective} from 'primeng/button';
-import {DatePipe} from '@angular/common';
+import {DatePipe, NgIf} from '@angular/common';
 import {Card} from 'primeng/card';
 import {AuthService} from '../../services/auth/auth-service';
 
@@ -12,20 +12,21 @@ import {AuthService} from '../../services/auth/auth-service';
     FormsModule,
     ButtonDirective,
     DatePipe,
-    Card
+    Card,
+    NgIf
   ],
   templateUrl: './user-profile.html',
   styleUrl: './user-profile.css'
 })
 export class UserProfile implements OnInit {
 
-  @Input() user?: TicketingUserDto;
+  protected user: TicketingUserDto | null = null;
 
   constructor(protected authService: AuthService) {
   }
 
   ngOnInit(): void {
-    this.user = this.authService.logedUser();
+    this.user = this.authService.loggedInUser();
   }
 
 

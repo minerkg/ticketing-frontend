@@ -40,12 +40,12 @@ export class Header {
 
   login() {
     this.router.navigate(['/login']);
-    this.authService.loggedIn.update( currentValue => !currentValue)
+
   }
 
   logout() {
     this.router.navigate(['/logout']);
-    this.authService.loggedIn.update( currentValue => !currentValue)
+
   }
 
 }
