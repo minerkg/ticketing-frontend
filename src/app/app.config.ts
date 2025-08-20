@@ -5,6 +5,8 @@ import {routes} from './app.routes';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
 import {authInterceptor} from './services/auth/auth-interceptor';
+import {providePrimeNG} from 'primeng/config';
+import Aura from '@primeuix/themes/aura';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,6 +14,13 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
-    MessageService
+    MessageService,
+
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    })
+
   ]
 };
