@@ -1,0 +1,1184 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api/v1",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/user/change-password": {
+      "put": {
+        "tags": [
+          "ticketing-user-controller"
+        ],
+        "operationId": "changePassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordChangeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ticket-element/reactivate": {
+      "put": {
+        "tags": [
+          "ticket-element-controller"
+        ],
+        "operationId": "reactivateTicketElement",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTicketElement"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ticket-element/deactivate": {
+      "put": {
+        "tags": [
+          "ticket-element-controller"
+        ],
+        "operationId": "deactivateTicketElement",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTicketElement"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/solution-type/reactivate": {
+      "put": {
+        "tags": [
+          "solution-type-controller"
+        ],
+        "operationId": "reactivateSolutionType",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSolutionType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/solution-type/deactivate": {
+      "put": {
+        "tags": [
+          "solution-type-controller"
+        ],
+        "operationId": "deactivateSolutionType",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSolutionType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/complaint-ticket/update/{ticketId}": {
+      "put": {
+        "tags": [
+          "complaint-ticket-controller"
+        ],
+        "operationId": "workingOnTicket",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComplaintTicketRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTicketDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/complaint-ticket/close/{ticketId}": {
+      "put": {
+        "tags": [
+          "complaint-ticket-controller"
+        ],
+        "operationId": "closeTicket",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TicketCloseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTicketDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/complaint-ticket/cancel/{ticketId}": {
+      "put": {
+        "tags": [
+          "complaint-ticket-controller"
+        ],
+        "operationId": "cancelTicket",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTicketDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/complaint-ticket/assign/{ticketId}": {
+      "put": {
+        "tags": [
+          "complaint-ticket-controller"
+        ],
+        "operationId": "assignTicket",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TicketingUserDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTicketDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/register": {
+      "post": {
+        "tags": [
+          "ticketing-user-controller"
+        ],
+        "operationId": "registerUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegistrationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTicketingUserDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ticket-element": {
+      "get": {
+        "tags": [
+          "ticket-element-controller"
+        ],
+        "operationId": "getAllTicketElements",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSetTicketElement"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ticket-element-controller"
+        ],
+        "operationId": "createTicketElement",
+        "parameters": [
+          {
+            "name": "elementName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTicketElement"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/solution-type": {
+      "get": {
+        "tags": [
+          "solution-type-controller"
+        ],
+        "operationId": "getAllSolutionTypes",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSetSolutionType"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "solution-type-controller"
+        ],
+        "operationId": "createSolutionType",
+        "parameters": [
+          {
+            "name": "solutionName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSolutionType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/complaint-ticket": {
+      "get": {
+        "tags": [
+          "complaint-ticket-controller"
+        ],
+        "operationId": "getAllTickets",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSetTicketDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "complaint-ticket-controller"
+        ],
+        "operationId": "createTicket",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TicketCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTicketDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comment/{ticketId}": {
+      "post": {
+        "tags": [
+          "comment-controller"
+        ],
+        "operationId": "addComment",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTicketDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/me": {
+      "get": {
+        "tags": [
+          "ticketing-user-controller"
+        ],
+        "operationId": "getCurrentUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTicketingUserDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/all-users": {
+      "get": {
+        "tags": [
+          "ticketing-user-controller"
+        ],
+        "operationId": "getAllUsers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseIterableTicketingUserDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/complaint-ticket/my-assigned-tickets": {
+      "get": {
+        "tags": [
+          "complaint-ticket-controller"
+        ],
+        "operationId": "getCurrentUserAssignedTickets",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListTicketDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PasswordChangeRequest": {
+        "type": "object",
+        "properties": {
+          "oldPassword": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseString": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseTicketElement": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/TicketElement"
+          }
+        }
+      },
+      "TicketElement": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "ticketElementStatus": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "INACTIVE"
+            ]
+          }
+        }
+      },
+      "ApiResponseSolutionType": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/SolutionType"
+          }
+        }
+      },
+      "SolutionType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "solutionTypeStatus": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "INACTIVE"
+            ]
+          }
+        }
+      },
+      "ComplaintTicketRequest": {
+        "type": "object",
+        "properties": {
+          "ticketElementName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseTicketDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/TicketDto"
+          }
+        }
+      },
+      "CommentDto": {
+        "type": "object",
+        "properties": {
+          "commentText": {
+            "type": "string"
+          },
+          "commenter": {
+            "$ref": "#/components/schemas/TicketingUserDto"
+          },
+          "ticketId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "commentedWhen": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "TicketDto": {
+        "type": "object",
+        "properties": {
+          "ticketId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ticketType": {
+            "type": "string",
+            "enum": [
+              "COMPLAINT",
+              "REQUEST",
+              "INCIDENT"
+            ]
+          },
+          "ticketElement": {
+            "$ref": "#/components/schemas/TicketElement"
+          },
+          "createdWhen": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/TicketingUserDto"
+          },
+          "description": {
+            "type": "string"
+          },
+          "ticketStatus": {
+            "type": "string",
+            "enum": [
+              "NEW",
+              "ASSIGNED",
+              "IN_PROGRESS",
+              "RESOLVED",
+              "CLOSED",
+              "CANCELLED"
+            ]
+          },
+          "slaHours": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "assignedTo": {
+            "$ref": "#/components/schemas/TicketingUserDto"
+          },
+          "assignedWhen": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "solutionType": {
+            "$ref": "#/components/schemas/SolutionType"
+          },
+          "solutionDescription": {
+            "type": "string"
+          },
+          "closedBy": {
+            "$ref": "#/components/schemas/TicketingUserDto"
+          },
+          "closedWhen": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cancelledBy": {
+            "$ref": "#/components/schemas/TicketingUserDto"
+          },
+          "cancelledWhen": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommentDto"
+            }
+          }
+        }
+      },
+      "TicketingUserDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "username": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "USER",
+              "SUPERVISOR"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "TicketCloseRequest": {
+        "type": "object",
+        "properties": {
+          "solutionTypeName": {
+            "type": "string"
+          },
+          "solutionDescription": {
+            "type": "string"
+          }
+        }
+      },
+      "UserRegistrationRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseTicketingUserDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/TicketingUserDto"
+          }
+        }
+      },
+      "Client": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "tickets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ComplaintTicket"
+            }
+          }
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "commentText": {
+            "type": "string"
+          },
+          "commenter": {
+            "$ref": "#/components/schemas/TicketingUser"
+          },
+          "ticket": {
+            "$ref": "#/components/schemas/ComplaintTicket"
+          },
+          "commentedWhen": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ComplaintTicket": {
+        "type": "object",
+        "properties": {
+          "ticketId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "client": {
+            "$ref": "#/components/schemas/Client"
+          },
+          "ticketType": {
+            "type": "string",
+            "enum": [
+              "COMPLAINT",
+              "REQUEST",
+              "INCIDENT"
+            ]
+          },
+          "ticketElement": {
+            "$ref": "#/components/schemas/TicketElement"
+          },
+          "createdWhen": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/TicketingUser"
+          },
+          "description": {
+            "type": "string"
+          },
+          "ticketStatus": {
+            "type": "string",
+            "enum": [
+              "NEW",
+              "ASSIGNED",
+              "IN_PROGRESS",
+              "RESOLVED",
+              "CLOSED",
+              "CANCELLED"
+            ]
+          },
+          "slaHours": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "assignedTo": {
+            "$ref": "#/components/schemas/TicketingUser"
+          },
+          "assignedWhen": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "solutionType": {
+            "$ref": "#/components/schemas/SolutionType"
+          },
+          "solutionDescription": {
+            "type": "string"
+          },
+          "closedBy": {
+            "$ref": "#/components/schemas/TicketingUser"
+          },
+          "closedWhen": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cancelledBy": {
+            "$ref": "#/components/schemas/TicketingUser"
+          },
+          "cancelledWhen": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            }
+          }
+        }
+      },
+      "GrantedAuthority": {
+        "type": "object",
+        "properties": {
+          "authority": {
+            "type": "string"
+          }
+        }
+      },
+      "TicketCreationRequest": {
+        "type": "object",
+        "properties": {
+          "client": {
+            "$ref": "#/components/schemas/Client"
+          },
+          "ticketType": {
+            "type": "string",
+            "enum": [
+              "COMPLAINT",
+              "REQUEST",
+              "INCIDENT"
+            ]
+          },
+          "ticketElementName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "ticketStatus": {
+            "type": "string",
+            "enum": [
+              "NEW",
+              "ASSIGNED",
+              "IN_PROGRESS",
+              "RESOLVED",
+              "CLOSED",
+              "CANCELLED"
+            ]
+          }
+        }
+      },
+      "TicketingUser": {
+        "required": [
+          "email",
+          "firstName",
+          "lastName",
+          "password",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 2147483647,
+            "minLength": 8,
+            "type": "string",
+            "writeOnly": true
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string",
+            "writeOnly": true,
+            "enum": [
+              "ADMIN",
+              "USER",
+              "SUPERVISOR"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "authorities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrantedAuthority"
+            }
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ApiResponseIterableTicketingUserDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "ApiResponseSetTicketElement": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TicketElement"
+            }
+          }
+        }
+      },
+      "ApiResponseSetSolutionType": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SolutionType"
+            }
+          }
+        }
+      },
+      "ApiResponseSetTicketDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TicketDto"
+            }
+          }
+        }
+      },
+      "ApiResponseListTicketDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TicketDto"
+            }
+          }
+        }
+      }
+    }
+  }
+}
