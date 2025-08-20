@@ -65,6 +65,7 @@ export class AuthService  {
   logout(): void {
     this.loggedIn.set(false);
     this.authHeaders = null;
+    //call backend
     // localStorage.removeItem(this.tokenKey);
     // localStorage.removeItem(this.userData);
     this.router.navigate(['/login']);

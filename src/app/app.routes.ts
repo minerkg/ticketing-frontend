@@ -20,5 +20,9 @@ export const routes: Routes = [
   {
     path: 'logout',
     component: Logout
+  },
+  {
+    path: 'my-assigned-tickets',
+    component: Dashboard
   }
 ];

@@ -26,16 +26,15 @@ export class Header {
   }
 
 
-  // Horizontal menubar items (optional)
   items: MenuItem[] = [
     {label: 'Home', icon: 'pi pi-home', routerLink: '/'},
-    {label: 'About', icon: 'pi pi-info', routerLink: '/about'},
+    {label: 'My assigned tickets', icon: 'pi pi-info', routerLink: '/my-assigned-tickets'},
   ];
 
   // Vertical menu items
   verticalItems: MenuItem[] = [
     {label: 'Dashboard', icon: 'pi pi-chart-line', routerLink: '/dashboard'},
-    {label: 'Settings', icon: 'pi pi-cog', routerLink: '/settings'},
+
   ];
 
   login() {

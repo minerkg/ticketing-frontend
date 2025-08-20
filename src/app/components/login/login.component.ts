@@ -50,13 +50,13 @@ export class Login implements OnInit {
         this.router.navigate(['/user-profile']);
         this.messageService.add({
           severity: 'success',
-          summary: 'LoginComponent Successful',
+          summary: 'You logged in successfully',
           detail: 'Welcome back!'
         });
       } else {
         this.messageService.add({
           severity: 'error',
-          summary: 'LoginComponent Failed',
+          summary: 'Your login attempt failed',
           detail: 'Invalid username or password.'
         });
       }
