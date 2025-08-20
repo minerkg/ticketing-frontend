@@ -2,20 +2,21 @@ import {Injectable, signal} from '@angular/core';
 import {catchError, map, Observable, of, tap} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {BaseService} from '../base-service';
+
 import {ApiResponse} from '../../models/api-response';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService extends BaseService {
+export class AuthService  {
   readonly loggedIn = signal(false);
   private authHeaders: HttpHeaders | null = null;
-  private tokenKey = 'authToken';
+  private readonly tokenKey = 'authToken';
+  protected readonly basePath = environment.apiBasePath;
 
 
   constructor(private http: HttpClient, private router: Router) {
-    super();
     const storedAuth = localStorage.getItem(this.tokenKey);
     if (storedAuth) {
       this.setAuthHeaders(JSON.parse(storedAuth));
@@ -43,7 +44,6 @@ export class AuthService extends BaseService {
         localStorage.setItem(this.tokenKey, JSON.stringify(credentials));
       }),
       catchError(error => {
-        // Failed login
         this.loggedIn.set(false);
         this.authHeaders = null;
         return of(false);

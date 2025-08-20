@@ -1,19 +1,19 @@
 import {Injectable} from '@angular/core';
-import {BaseService} from './base-service';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {TicketDto} from '../models/ticketDto';
 import {TicketCreationRequest} from '../models/ticketCreationRequest';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TicketService extends BaseService {
+export class TicketService {
 
   private localVarPath = `complaint-ticket`;
+  private readonly basePath = environment.apiBasePath;
 
   constructor(protected httpClient: HttpClient) {
-    super();
   }
 
 
