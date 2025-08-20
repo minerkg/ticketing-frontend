@@ -3,6 +3,7 @@ import {Login} from './components/login/login.component';
 import {Dashboard} from './components/dashboard/dashboard';
 import {UserProfile} from './components/user-profile/user-profile';
 import {Logout} from './components/logout/logout';
+import {UserList} from './components/user-list/user-list';
 
 export const routes: Routes = [
   {
@@ -24,5 +25,9 @@ export const routes: Routes = [
   {
     path: 'my-assigned-tickets',
     component: Dashboard
+  },
+  {
+    path: 'user-list',
+    component: UserList
   }
 ];

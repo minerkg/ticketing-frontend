@@ -20,7 +20,7 @@ import {AuthService} from '../../services/auth/auth-service';
 })
 export class UserProfile implements OnInit {
 
-  protected user: TicketingUserDto | null = null;
+  @Input() protected user: TicketingUserDto | null = null;
 
   constructor(protected authService: AuthService) {
   }
