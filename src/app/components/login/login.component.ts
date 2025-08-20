@@ -28,6 +28,7 @@ export class Login implements OnInit {
   };
   loading = signal(false);
 
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -37,7 +38,7 @@ export class Login implements OnInit {
 
   ngOnInit(): void {
     if (this.authService.loggedIn()) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/user-profile']);
     }
   }
 
@@ -46,7 +47,7 @@ export class Login implements OnInit {
     this.authService.login(this.credentials).subscribe(isSuccess => {
       this.loading.set(false);
       if (isSuccess) {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/user-profile']);
         this.messageService.add({
           severity: 'success',
           summary: 'LoginComponent Successful',
