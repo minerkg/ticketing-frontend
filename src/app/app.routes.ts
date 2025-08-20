@@ -1,9 +1,14 @@
 import {Routes} from '@angular/router';
-import {Login} from './components/login/login';
+import {Login} from './components/login/login.component';
+import {Dashboard} from './components/dashboard/dashboard';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: Login
   },
+  {
+    path: 'dashboard',
+    component: Dashboard
+  }
 ];
