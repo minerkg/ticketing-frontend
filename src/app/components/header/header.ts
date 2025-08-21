@@ -51,7 +51,6 @@ export class Header {
   // Vertical menu items
   verticalItems: MenuItem[] = [
     {label: 'Dashboard', icon: 'pi pi-chart-line', routerLink: '/dashboard'},
-    /*TODO: remove*/{label: 'Ticket', icon: 'pi pi-chart-line', routerLink: ['/ticket-detail', 1]},
 
   ];
 
