@@ -1,4 +1,4 @@
-import {TicketDto} from './ticketDto';
+import {Ticket} from './ticket';
 
 
 export interface Client {
@@ -7,6 +7,6 @@ export interface Client {
   lastName?: string;
   email?: string;
   phoneNumber?: string;
-  tickets?: Array<TicketDto>;
+  tickets?: Array<Ticket>;
 }
 

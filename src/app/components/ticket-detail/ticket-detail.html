@@ -1,1 +1,31 @@
-<p>ticket-detail works!</p>
+@if (ticketSignal(); as ticket) {
+  <ng-container>
+    <div class="ticket-detail-wrap">
+      <p-card>
+        <h2>Ticket #{{ ticket.id }} - {{ ticket.ticketType }}</h2>
+        <p>Status: {{ ticket.ticketStatus }}</p>
+        <p>Created: {{ ticket.createdWhen }}</p>
+        <p>Created by: {{ ticket.createdBy?.username }}</p>
+        <p>Description: {{ ticket.description }}</p>
+        @if (ticket.assignedTo) {
+          <p>Assigned to: {{ ticket.assignedTo.username }}</p>
+        }
+        @if (ticket.solutionDescription) {
+          <p>Solution: {{ ticket.solutionDescription }}</p>
+        }
+
+        <p-divider></p-divider>
+
+        <h3>Comments</h3>
+        @for (comment of ticketSignal()?.comments; track comment.ticketId) {
+          <div class="comment">
+            <strong>{{ comment.commenter?.firstName }}</strong>
+            <em>{{ comment.commentedWhen }}</em>
+            <p>{{ comment.commentText }}</p>
+            <p-divider></p-divider>
+          </div>
+        }
+      </p-card>
+    </div>
+  </ng-container>
+}

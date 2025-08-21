@@ -43,6 +43,7 @@ export class Header {
 
     if (this.isAdmin()) {
       baseItems.push({label: 'All users', icon: 'pi pi-users', routerLink: '/user-list'});
+      baseItems.push({label: 'All tickets', icon: 'pi pi-chart-line', routerLink: '/ticket-list'},)
     }
     return baseItems;
   });
@@ -50,6 +51,7 @@ export class Header {
   // Vertical menu items
   verticalItems: MenuItem[] = [
     {label: 'Dashboard', icon: 'pi pi-chart-line', routerLink: '/dashboard'},
+    /*TODO: remove*/{label: 'Ticket', icon: 'pi pi-chart-line', routerLink: ['/ticket-detail', 1]},
 
   ];
 

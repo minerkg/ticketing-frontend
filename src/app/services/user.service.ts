@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ApiResponse} from '../models/api-response';
 import {User} from '../models/user';
-import {catchError, find, map, of} from 'rxjs';
+import {catchError, map, of} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {AuthService} from './auth/auth-service';
 
