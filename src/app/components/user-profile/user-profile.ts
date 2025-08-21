@@ -1,10 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TicketingUserDto} from '../../models/ticketingUserDto';
+import {User} from '../../models/user';
 import {FormsModule} from '@angular/forms';
 import {ButtonDirective} from 'primeng/button';
 import {DatePipe, NgIf} from '@angular/common';
 import {Card} from 'primeng/card';
 import {AuthService} from '../../services/auth/auth-service';
+import {UserService} from '../../services/user.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -20,17 +22,22 @@ import {AuthService} from '../../services/auth/auth-service';
 })
 export class UserProfile implements OnInit {
 
-  @Input() protected user: TicketingUserDto | null = null;
+  @Input() protected userId: string | undefined;
+  protected user: User | undefined;
 
-  constructor(protected authService: AuthService) {
+  constructor(private userService: UserService, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.user = this.authService.loggedInUser();
+    this.userId = this.route.snapshot.paramMap.get('userId') ?? undefined;
+    if (!this.userId) return;
+    this.userService.findUserById(this.userId).subscribe(response => {
+      this.user = response;
+    });
   }
 
 
-  roles = Object.values(TicketingUserDto.UserRoleEnum);
+  roles = Object.values(User.UserRoleEnum);
 
   editMode = false;
 

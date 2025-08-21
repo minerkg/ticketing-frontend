@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ApiResponse} from '../models/api-response';
-import {TicketingUserDto} from '../models/ticketingUserDto';
-import {catchError, map, of} from 'rxjs';
+import {User} from '../models/user';
+import {catchError, find, map, of} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {AuthService} from './auth/auth-service';
 
@@ -20,7 +20,7 @@ export class UserService {
   getAllUsers() {
     const usersUrl = `${this.basePath}/user/all-users`;
     return this.http
-      .get<ApiResponse<TicketingUserDto[]>>(usersUrl, {headers: this.authService.getAuthHeaders()})
+      .get<ApiResponse<User[]>>(usersUrl, {headers: this.authService.getAuthHeaders()})
       .pipe(
         map((response) => response.data ?? []),
         catchError((error) => {
@@ -28,6 +28,12 @@ export class UserService {
           return of([]);
         })
       );
+  }
+
+  findUserById(userId: string | undefined) {
+    return this.getAllUsers().pipe(
+      map(users => users.find(user => user.id === userId) ?? undefined)
+    );
   }
 
 

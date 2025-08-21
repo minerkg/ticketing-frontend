@@ -1,5 +1,5 @@
 import {Component, OnInit, signal} from '@angular/core';
-import {TicketingUserDto} from '../../models/ticketingUserDto';
+import {User} from '../../models/user';
 import {UserService} from '../../services/user.service';
 import {TableModule} from 'primeng/table';
 
@@ -13,7 +13,7 @@ import {TableModule} from 'primeng/table';
 })
 export class UserList implements OnInit {
 
-  ticketingUserList = signal<TicketingUserDto[]>([]);
+  ticketingUserList = signal<User[]>([]);
 
   constructor(protected userService: UserService) {
   }

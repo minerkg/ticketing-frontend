@@ -33,6 +33,14 @@ export class Header {
       {label: 'My assigned tickets', icon: 'pi pi-info', routerLink: '/my-assigned-tickets'},
     ];
 
+    if (this.authService.loggedInUser()) {
+      baseItems.push({
+        label: 'My profile',
+        icon: 'pi pi-users', routerLink: ['/user-profile',
+          this.authService.loggedInUser()?.id]
+      });
+    }
+
     if (this.isAdmin()) {
       baseItems.push({label: 'All users', icon: 'pi pi-users', routerLink: '/user-list'});
     }

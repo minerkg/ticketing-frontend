@@ -47,7 +47,7 @@ export class Login implements OnInit {
     this.authService.login(this.credentials).subscribe(isSuccess => {
       this.loading.set(false);
       if (isSuccess) {
-        this.router.navigate(['/user-profile']);
+        this.router.navigate(['/user-profile', this.authService.loggedInUser()?.id]);
         this.messageService.add({
           severity: 'success',
           summary: 'You logged in successfully',

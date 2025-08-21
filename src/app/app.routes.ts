@@ -15,7 +15,7 @@ export const routes: Routes = [
     component: Dashboard
   },
   {
-    path: 'user-profile',
+    path: 'user-profile/:userId',
     component: UserProfile
   },
   {

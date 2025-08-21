@@ -5,14 +5,14 @@ import {Router} from '@angular/router';
 
 import {ApiResponse} from '../../models/api-response';
 import {environment} from '../../../environments/environment';
-import {TicketingUserDto} from '../../models/ticketingUserDto';
+import {User} from '../../models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService  {
   readonly loggedIn = signal(false);
-  readonly loggedInUser = signal<TicketingUserDto | null >(null);
+  readonly loggedInUser = signal<User | null >(null);
 
 
   private authHeaders: HttpHeaders | null = null;
@@ -45,7 +45,7 @@ export class AuthService  {
   login(credentials: { username: string, password: string }): Observable<boolean> {
     this.setAuthHeaders(credentials);
     const loginUrl = `${this.basePath}/user/me`;
-    return this.http.get<ApiResponse<TicketingUserDto>>(loginUrl, {headers: this.getAuthHeaders()}).pipe(
+    return this.http.get<ApiResponse<User>>(loginUrl, {headers: this.getAuthHeaders()}).pipe(
       tap((response) => {
         this.loggedInUser.set(response.data);
         this.loggedIn.set(true);
