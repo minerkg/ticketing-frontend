@@ -21,7 +21,7 @@ export class AuthService  {
   protected readonly basePath = environment.apiBasePath;
 
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient) {
     // const storedAuth = localStorage.getItem(this.tokenKey);
     // const storedUser = localStorage.getItem(this.userData);
     // if (storedAuth) {
@@ -65,10 +65,10 @@ export class AuthService  {
   logout(): void {
     this.loggedIn.set(false);
     this.authHeaders = null;
+    this.loggedInUser.set(null);
     //call backend
     // localStorage.removeItem(this.tokenKey);
     // localStorage.removeItem(this.userData);
-    this.router.navigate(['/login']);
   }
 
   getAuthHeaders(): HttpHeaders {

@@ -1,1 +1,23 @@
-<p>logout works!</p>
+<div class="logout-wrap">
+  <p-card class="logout-card">
+    <div class="icon-wrap">
+      <i class="pi pi-check-circle"></i>
+    </div>
+
+    <h2>You’ve been logged out</h2>
+    <p class="muted">
+      Your session has ended successfully. You can safely close this tab or sign in again.
+    </p>
+
+    <p-message severity="success" text="Logout completed successfully."></p-message>
+    <p-message severity="success" text="Redirecting in {{ countdown() }} seconds to home page..."></p-message>
+
+    <p-divider></p-divider>
+
+    <div class="actions">
+      <a pButton routerLink="/login" label="Log in" icon="pi pi-sign-in"></a>
+      <a pButton routerLink="/" label="Home" icon="pi pi-home" class="p-button-secondary"></a>
+    </div>
+  </p-card>
+</div>
+

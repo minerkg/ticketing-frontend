@@ -1,4 +1,4 @@
-import {Component, OnInit, Signal, signal} from '@angular/core';
+import {Component, computed} from '@angular/core';
 import {Menubar} from 'primeng/menubar';
 import {Menu} from 'primeng/menu';
 import {ButtonDirective} from 'primeng/button';
@@ -21,15 +21,23 @@ import {Router} from '@angular/router';
 })
 export class Header {
 
+  readonly isAdmin = computed(() => this.authService.loggedInUser()?.userRole === 'ADMIN');
 
   constructor(protected readonly authService: AuthService, private router: Router) {
   }
 
 
-  items: MenuItem[] = [
-    {label: 'Home', icon: 'pi pi-home', routerLink: '/'},
-    {label: 'My assigned tickets', icon: 'pi pi-info', routerLink: '/my-assigned-tickets'},
-  ];
+  readonly items = computed<MenuItem[]>(() => {
+    const baseItems: MenuItem[] = [
+      {label: 'Home', icon: 'pi pi-home', routerLink: '/'},
+      {label: 'My assigned tickets', icon: 'pi pi-info', routerLink: '/my-assigned-tickets'},
+    ];
+
+    if (this.isAdmin()) {
+      baseItems.push({label: 'All users', icon: 'pi pi-users', routerLink: '/user-list'});
+    }
+    return baseItems;
+  });
 
   // Vertical menu items
   verticalItems: MenuItem[] = [

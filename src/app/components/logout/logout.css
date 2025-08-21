@@ -1,0 +1,30 @@
+.logout-wrap {
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.logout-card {
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+}
+
+.icon-wrap {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: .5rem;
+}
+
+.icon-wrap .pi {
+  vertical-align: middle;
+}
+
+
+.actions {
+  display: flex;
+  gap: .75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
