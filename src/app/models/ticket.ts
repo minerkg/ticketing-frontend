@@ -1,7 +1,7 @@
 import { User } from './user';
 import { TicketElement } from './ticketElement';
 import { SolutionType } from './solutionType';
-import { Comment } from './comment';
+import { TicketComment } from './ticketComment';
 
 
 export interface Ticket {
@@ -21,7 +21,7 @@ export interface Ticket {
     closedWhen?: string;
     cancelledBy?: User;
     cancelledWhen?: string;
-    comments?: Array<Comment>;
+    comments?: Array<TicketComment>;
 }
 export namespace Ticket {
     export const TicketTypeEnum = {

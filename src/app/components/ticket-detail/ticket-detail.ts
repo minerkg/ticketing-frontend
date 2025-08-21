@@ -7,12 +7,21 @@ import {Card} from 'primeng/card';
 import {Divider} from 'primeng/divider';
 import {MessageService} from 'primeng/api';
 import {User} from '../../models/user';
+import {DatePipe} from '@angular/common';
+import {ButtonDirective} from 'primeng/button';
+import {FormsModule} from '@angular/forms';
+import {TicketComment} from '../../models/ticketComment';
+import {InputText} from 'primeng/inputtext';
 
 @Component({
   selector: 'app-ticket-detail',
   imports: [
     Card,
-    Divider
+    Divider,
+    DatePipe,
+    ButtonDirective,
+    FormsModule,
+    InputText
   ],
   templateUrl: './ticket-detail.html',
   styleUrl: './ticket-detail.css'
@@ -54,5 +63,32 @@ export class TicketDetail implements OnInit {
         || this.authService.loggedInUser()?.userRole === User.UserRoleEnum.Admin);
   }
 
+
+  newCommentText: string = '';
+
+  addComment(ticket: Ticket) {
+    if (!this.newCommentText.trim()) return;
+
+    const newComment: TicketComment = {
+      ticketId: ticket.ticketId,
+      commenter: this.authService.loggedInUser(),
+      commentedWhen: new Date().toISOString(),
+      commentText: this.newCommentText
+    };
+
+    this.ticketSignal.update(t =>
+      t ? {...t, comments: [...(t.comments ?? []), newComment]} : t
+    );
+
+    this.ticketService.addComment(ticket.ticketId, newComment).subscribe({
+      next: () => this.newCommentText = '',
+      error: () => this.messageService.add({
+        severity: 'error',
+        summary: 'Failed to add comment',
+        detail: 'Please try again.'
+      })
+    });
+    this.newCommentText = '';
+  }
 
 }

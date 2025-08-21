@@ -12,7 +12,7 @@ import {User} from '../../models/user';
 })
 export class AuthService  {
   readonly loggedIn = signal(false);
-  readonly loggedInUser = signal<User | null >(null);
+  readonly loggedInUser = signal<User | undefined >(undefined);
 
 
   private authHeaders: HttpHeaders | null = null;
@@ -65,7 +65,7 @@ export class AuthService  {
   logout(): void {
     this.loggedIn.set(false);
     this.authHeaders = null;
-    this.loggedInUser.set(null);
+    this.loggedInUser.set(undefined);
     //call backend
     // localStorage.removeItem(this.tokenKey);
     // localStorage.removeItem(this.userData);

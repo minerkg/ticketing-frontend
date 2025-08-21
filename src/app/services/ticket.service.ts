@@ -6,6 +6,7 @@ import {TicketCreationRequest} from '../models/ticketCreationRequest';
 import {environment} from '../../environments/environment';
 import {ApiResponse} from '../models/api-response';
 import {AuthService} from './auth/auth-service';
+import {TicketComment} from '../models/ticketComment';
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +44,10 @@ export class TicketService {
     return this.getAllTickets().pipe(
       map(tickets => tickets.find(ticket => ticket.ticketId === ticketId) ?? undefined)
     );
+  }
+
+  addComment(ticketId: number, newComment: TicketComment): Observable<Ticket | undefined> {
+    //TODO: imlement
+    return new Observable<Ticket | undefined>();
   }
 }

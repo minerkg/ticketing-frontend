@@ -1,27 +1,50 @@
 @if (ticketSignal(); as ticket) {
   <ng-container>
     <div class="ticket-detail-wrap">
-      <p-card>
+      <p-card class="ticket-card">
         <h2>Ticket #{{ ticket.ticketId }} - {{ ticket.ticketType }}</h2>
         <p>Status: {{ ticket.ticketStatus }}</p>
-        <p>Created: {{ ticket.createdWhen }}</p>
+        <p>Created: {{ ticket.createdWhen | date:'dd.mm.yyyy hh:mm' }}</p>
         <p>Created by: {{ ticket.createdBy?.username }}</p>
+        <p>Ticket element: {{ ticket.ticketElement?.name }}</p>
         <p>Description: {{ ticket.description }}</p>
         @if (ticket.assignedTo) {
           <p>Assigned to: {{ ticket.assignedTo.username }}</p>
         }
-        @if (ticket.solutionDescription) {
-          <p>Solution: {{ ticket.solutionDescription }}</p>
+        @if (ticket.ticketStatus === 'CLOSED') {
+          <p>Solution type: {{ ticket.solutionType?.name }}</p>
+          <p>Solution description: {{ ticket.solutionDescription }}</p>
+          <p>Closed when: {{ ticket.closedWhen | date:'dd.mm.yyyy hh:mm' }}</p>
+          <p>Closed by: {{ ticket.closedBy?.username }}</p>
+
         }
+
+        <p-divider></p-divider>
+        <div class="comment-input-wrap">
+          <input pInputText
+                 type="text"
+                 [(ngModel)]="newCommentText"
+                 placeholder="Write a comment..."
+                 class="comment-input" />
+
+          <button pButton
+                  type="button"
+                  label="Add"
+                  icon="pi pi-plus"
+                  (click)="addComment(ticket)"
+                  class="comment-button">
+          </button>
+        </div>
+
 
         <p-divider></p-divider>
 
         <h3>Comments</h3>
         @for (comment of ticketSignal()?.comments; track comment.ticketId) {
           <div class="comment">
-            <strong>{{ comment.commenter?.firstName }}</strong>
-            <em>{{ comment.commentedWhen }}</em>
-            <p>{{ comment.commentText }}</p>
+            <strong>Commenter: {{ comment.commenter?.username }}</strong>
+            <em> --- Date: {{ comment.commentedWhen | date:'dd.mm.yyyy hh:mm' }}</em>
+            <p>Comment: {{ comment.commentText }}</p>
             <p-divider></p-divider>
           </div>
         }

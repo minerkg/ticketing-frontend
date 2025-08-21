@@ -5,12 +5,14 @@ import {TableModule} from 'primeng/table';
 import {DatePipe} from '@angular/common';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
+import {ButtonDirective} from 'primeng/button';
 
 @Component({
   selector: 'app-ticket-list',
   imports: [
     TableModule,
-    DatePipe
+    DatePipe,
+    ButtonDirective
   ],
   templateUrl: './ticket-list.html',
   styleUrl: './ticket-list.css'

@@ -1,7 +1,7 @@
 import { User } from './user';
 
 
-export interface Comment {
+export interface TicketComment {
     commentText?: string;
     commenter?: User;
     ticketId: number;

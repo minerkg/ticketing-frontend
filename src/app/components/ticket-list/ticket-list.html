@@ -17,7 +17,7 @@
       <td>{{ ticket.ticketType }}</td>
       <td>{{ ticket.ticketStatus }}</td>
       <td>{{ ticket.createdBy?.username }}</td>
-      <td>{{ ticket.createdWhen | date:'short' }}</td>
+      <td>{{ ticket.createdWhen | date:'dd.mm.yyyy hh:mm' }}</td>
       <td>{{ ticket.assignedTo?.username }}</td>
       <td>
         <button pButton
