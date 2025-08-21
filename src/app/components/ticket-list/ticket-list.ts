@@ -4,6 +4,7 @@ import {TicketService} from '../../services/ticket.service';
 import {TableModule} from 'primeng/table';
 import {DatePipe} from '@angular/common';
 import {Router} from '@angular/router';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-ticket-list',
@@ -18,17 +19,23 @@ export class TicketList implements OnInit {
 
   ticketList = signal<Array<Ticket>>([]);
 
-  constructor(private ticketService: TicketService, private router: Router) {
+  constructor(private ticketService: TicketService, private router: Router, private messageService: MessageService) {
   }
 
   ngOnInit() {
-    this.ticketService.getAllTickets().subscribe(response => {
-      this.ticketList.set(response);
+    this.ticketService.getAllTickets().subscribe({
+      next: (data: Ticket[]) => {this.ticketList.set([...data]);},
+      error: error => {this.messageService.add({
+        severity: 'error',
+        summary: 'Fetching ticket failed',
+        detail: ` ${error} could not fetch ticket`
+      })}
+
     });
   }
 
   viewTicket(ticket: Ticket) {
-    this.router.navigate(['/ticket-detail', ticket.id]);
+    this.router.navigate(['/ticket-detail', ticket.ticketId]);
   }
 
 

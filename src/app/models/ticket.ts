@@ -5,7 +5,7 @@ import { Comment } from './comment';
 
 
 export interface Ticket {
-    id: number;
+    ticketId: number;
     ticketType: Ticket.TicketTypeEnum;
     ticketElement?: TicketElement;
     createdWhen: string;

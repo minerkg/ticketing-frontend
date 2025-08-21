@@ -41,7 +41,7 @@ export class TicketService {
 
   public getTicketById(ticketId: number) {
     return this.getAllTickets().pipe(
-      map(tickets => tickets.find(ticket => ticket.id === ticketId) ?? undefined)
+      map(tickets => tickets.find(ticket => ticket.ticketId === ticketId) ?? undefined)
     );
   }
 }

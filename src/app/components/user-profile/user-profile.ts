@@ -4,7 +4,6 @@ import {FormsModule} from '@angular/forms';
 import {ButtonDirective} from 'primeng/button';
 import {DatePipe, NgIf} from '@angular/common';
 import {Card} from 'primeng/card';
-import {AuthService} from '../../services/auth/auth-service';
 import {UserService} from '../../services/user.service';
 import {ActivatedRoute} from '@angular/router';
 
