@@ -15,8 +15,9 @@ export class TicketService {
 
   private readonly localVarPath = `complaint-ticket`;
   private readonly basePath = environment.apiBasePath;
+  private readonly complaintTicketUrl = `${this.basePath}/${this.localVarPath}`;
 
-  constructor(protected httpClient: HttpClient, private authService: AuthService) {
+  constructor(protected httpClient: HttpClient, private readonly authService: AuthService) {
   }
 
 
@@ -24,13 +25,21 @@ export class TicketService {
     if (ticketCreationRequest === null || ticketCreationRequest === undefined) {
       throw new Error('Required parameter ticketCreationRequest was null or undefined when calling createTicket.');
     }
-    return this.httpClient.request<Ticket>('post', `${this.basePath}/${(this.localVarPath)}`);
+    const url = `${this.basePath}/${(this.localVarPath)}`;
+    return this.httpClient
+      .post<ApiResponse<Ticket>>(url, ticketCreationRequest)
+      .pipe(
+        map((response) => response.data),
+        catchError((error) => {
+          console.error('Failed to create ticket', error);
+          return throwError(() => error);
+        })
+      );
   }
 
   public getAllTickets(): Observable<Ticket[]> {
-    const complaintTicketUrl = `${this.basePath}/${this.localVarPath}`;
     return this.httpClient
-      .get<ApiResponse<Ticket[]>>(complaintTicketUrl, {headers: this.authService.getAuthHeaders()})
+      .get<ApiResponse<Ticket[]>>(this.complaintTicketUrl, {headers: this.authService.getAuthHeaders()})
       .pipe(
         map((response) => response.data ?? []),
         catchError((error) => {
@@ -40,11 +49,26 @@ export class TicketService {
       );
   }
 
+  public getCurrentUserAssignedTickets(): Observable<Ticket[]> {
+    const complaintTicketUrl = `${this.complaintTicketUrl}/my-assigned-tickets`;
+    return this.httpClient
+      .get<ApiResponse<Ticket[]>>(complaintTicketUrl, {headers: this.authService.getAuthHeaders()})
+      .pipe(
+        map((response) => response.data ?? []),
+        catchError((error) => {
+          console.error('Failed to load my-tickets', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+
   public getTicketById(ticketId: number) {
     return this.getAllTickets().pipe(
       map(tickets => tickets.find(ticket => ticket.ticketId === ticketId) ?? undefined)
     );
   }
+
 
   addComment(ticketId: number, newComment: TicketComment): Observable<Ticket | undefined> {
     //TODO: imlement
