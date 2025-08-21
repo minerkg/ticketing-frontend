@@ -32,6 +32,8 @@ export class TicketDetail implements OnInit {
 
   ticketSignal = signal<Ticket | undefined>(undefined);
 
+
+
   constructor(
     private ticketService: TicketService,
     private route: ActivatedRoute,
@@ -90,5 +92,6 @@ export class TicketDetail implements OnInit {
     });
     this.newCommentText = '';
   }
+
 
 }

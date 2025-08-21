@@ -17,6 +17,24 @@
   height: 100%;
 }
 
-/*.ticket-card {*/
-/*  max-width: 45%;*/
-/*}*/
+.ticket-detail-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.ticket-card {
+  flex: 1 1 45%;
+  max-width: 45%;
+  min-width: 300px;
+  box-sizing: border-box;
+}
+
+
+@media (max-width: 768px) {
+  .ticket-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}

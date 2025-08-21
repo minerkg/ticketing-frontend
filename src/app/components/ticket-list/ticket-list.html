@@ -7,6 +7,8 @@
       <th>Created By</th>
       <th>Created When</th>
       <th>Assigned To</th>
+      <th>Description</th>
+      <th>RemainingSLA</th>
       <th>Actions</th>
     </tr>
   </ng-template>
@@ -19,6 +21,19 @@
       <td>{{ ticket.createdBy?.username }}</td>
       <td>{{ ticket.createdWhen | date:'dd.mm.yyyy hh:mm' }}</td>
       <td>{{ ticket.assignedTo?.username }}</td>
+      <td>{{ ticket.description }}</td>
+      @if (ticket.ticketStatus !== Ticket.TicketStatusEnum.Closed
+      && ticket.ticketStatus !== Ticket.TicketStatusEnum.Cancelled) {
+        <td>
+          <p-progressBar [value]="getSlaProgress(ticket.createdWhen, ticket.slaHours)"
+                         [showValue]="true"
+                         unit="%">
+          </p-progressBar>
+        </td>
+      } @else {
+        <td></td>
+      }
+
       <td>
         <button pButton
                 type="button"
