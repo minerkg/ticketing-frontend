@@ -42,7 +42,7 @@
         <p-divider></p-divider>
 
         <h3>Comments</h3>
-        @for (comment of ticketSignal()?.comments; track comment.ticketId) {
+        @for (comment of ticketSignal()?.comments; track comment.commentedWhen) {
           <div class="comment">
             <strong>Commenter: {{ comment.commenter?.username }}</strong>
             <em> --- Date: {{ comment.commentedWhen | date:'dd.mm.yyyy hh:mm' }}</em>
