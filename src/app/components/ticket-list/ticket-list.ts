@@ -28,6 +28,7 @@ export class TicketList implements OnInit {
   filteredTicketList = signal<Ticket[]>([]);
 
 
+
   protected readonly Ticket = Ticket;
   private filter?: TicketFilter;
 
@@ -84,7 +85,7 @@ export class TicketList implements OnInit {
     let progress = (elapsedMs / totalMs) * 100;
     progress = Math.min(Math.max(progress, 0), 100);
 
-    return progress;
+    return Math.round(progress * 100) / 100;
   }
 
 
