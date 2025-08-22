@@ -1,7 +1,6 @@
-import {Injectable, signal} from '@angular/core';
+import {computed, Injectable, signal} from '@angular/core';
 import {catchError, map, Observable, of, tap} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Router} from '@angular/router';
 
 import {ApiResponse} from '../../models/api-response';
 import {environment} from '../../../environments/environment';
@@ -10,9 +9,10 @@ import {User} from '../../models/user';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService  {
+export class AuthService {
   readonly loggedIn = signal(false);
-  readonly loggedInUser = signal<User | undefined >(undefined);
+  readonly loggedInUser = signal<User | undefined>(undefined);
+  readonly loggedInUserIsAdmin = computed(() => this.loggedInUser()?.userRole === User.UserRoleEnum.Admin);
 
 
   private authHeaders: HttpHeaders | null = null;

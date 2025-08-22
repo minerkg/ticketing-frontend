@@ -3,12 +3,12 @@ import {Ticket} from '../../models/ticket';
 import {TicketService} from '../../services/ticket.service';
 import {TableModule} from 'primeng/table';
 import {DatePipe} from '@angular/common';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {MessageService} from 'primeng/api';
-import {ButtonDirective} from 'primeng/button';
 import {ProgressBar} from 'primeng/progressbar';
 import {TicketFilter, TicketFilters} from './filters';
 import {AuthService} from '../../services/auth/auth-service';
+import {TicketActionsComponent} from '../ticket-actions/ticket-actions.component';
 
 
 @Component({
@@ -16,8 +16,8 @@ import {AuthService} from '../../services/auth/auth-service';
   imports: [
     TableModule,
     DatePipe,
-    ButtonDirective,
-    ProgressBar
+    ProgressBar,
+    TicketActionsComponent
   ],
   templateUrl: './ticket-list.html',
   styleUrl: './ticket-list.css'
@@ -27,11 +27,11 @@ export class TicketList implements OnInit {
   allTickets = signal<Ticket[]>([]);
   filteredTicketList = signal<Ticket[]>([]);
 
+
   protected readonly Ticket = Ticket;
   private filter?: TicketFilter;
 
   constructor(private ticketService: TicketService,
-              private router: Router,
               private messageService: MessageService,
               private route: ActivatedRoute,
               private authService: AuthService) {
@@ -72,11 +72,6 @@ export class TicketList implements OnInit {
     this.filteredTicketList.set(this.allTickets().filter(predicate));
   }
 
-
-
-  viewTicket(ticket: Ticket) {
-    this.router.navigate(['/ticket-detail', ticket.ticketId]);
-  }
 
   getSlaProgress(createdWhen: string, slaHours?: number): number {
     if (!slaHours) return 0;

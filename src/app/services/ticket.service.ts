@@ -7,6 +7,7 @@ import {environment} from '../../environments/environment';
 import {ApiResponse} from '../models/api-response';
 import {AuthService} from './auth/auth-service';
 import {TicketComment} from '../models/ticketComment';
+import {User} from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,20 @@ export class TicketService {
         })
       );
   }
+
+  public assignTicket(ticketId: number, assignToUser: User): Observable<Ticket> {
+    const url = `${this.basePath}/${(this.localVarPath)}/assign/${ticketId}`;
+    return this.httpClient
+      .put<ApiResponse<Ticket>>(url, assignToUser)
+      .pipe(
+        map((response) => response.data),
+        catchError((error) => {
+          console.error('Failed to create ticket', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
 
   public getCurrentUserAssignedTickets(): Observable<Ticket[]> {
     const complaintTicketUrl = `${this.complaintTicketUrl}/my-assigned-tickets`;

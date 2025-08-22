@@ -18,6 +18,8 @@
           <p>Closed by: {{ ticket.closedBy?.username }}</p>
 
         }
+        <p-divider></p-divider>
+        <app-ticket-actions [selectedTicket]="ticket" />
 
         <p-divider></p-divider>
         <div class="comment-input-wrap">

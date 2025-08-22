@@ -12,6 +12,7 @@ import {ButtonDirective} from 'primeng/button';
 import {FormsModule} from '@angular/forms';
 import {TicketComment} from '../../models/ticketComment';
 import {InputText} from 'primeng/inputtext';
+import {TicketActionsComponent} from '../ticket-actions/ticket-actions.component';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -21,7 +22,8 @@ import {InputText} from 'primeng/inputtext';
     DatePipe,
     ButtonDirective,
     FormsModule,
-    InputText
+    InputText,
+    TicketActionsComponent
   ],
   templateUrl: './ticket-detail.html',
   styleUrl: './ticket-detail.css'

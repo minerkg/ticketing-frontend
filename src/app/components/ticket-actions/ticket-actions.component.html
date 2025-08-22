@@ -1,0 +1,9 @@
+<div class="flex flex-wrap gap-2">
+  @for (action of ticketOperationList(); track action) {
+    <p-button
+      [label]="getLabel(action)"
+      [icon]="getIcon(action)"
+      (onClick)="onAction(action)">
+    </p-button>
+  }
+</div>
