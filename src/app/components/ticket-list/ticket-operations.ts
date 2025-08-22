@@ -6,6 +6,7 @@ export enum TicketOperation {
   Assign = 'assign',
   View = 'view',
 
+
 }
 
 export const iconMap: Record<TicketOperation, string> = {
@@ -14,6 +15,7 @@ export const iconMap: Record<TicketOperation, string> = {
   [TicketOperation.Cancel]: 'pi pi-times',
   [TicketOperation.Assign]: 'pi pi-user-plus',
   [TicketOperation.View]: 'pi pi-search',
+
 };
 
 export const labelMap: Record<TicketOperation, string> = {

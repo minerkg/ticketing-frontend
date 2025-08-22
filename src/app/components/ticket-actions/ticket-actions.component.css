@@ -1,0 +1,13 @@
+/* Smaller buttons and consistent spacing */
+.ticket-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem; /* space between buttons */
+}
+
+.ticket-actions ::ng-deep .p-button {
+  height: 28px;          /* smaller height */
+  min-width: 60px;       /* smaller width */
+  font-size: 0.75rem;    /* smaller text */
+  padding: 0 0.5rem;     /* horizontal padding */
+}

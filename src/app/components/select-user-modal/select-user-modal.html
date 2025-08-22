@@ -1,0 +1,18 @@
+<p-dialog [(visible)]="open" header="Select User" [modal]="true" [style]="{ width: '25rem' }">
+  <div class="p-fluid">
+    <p-dropdown
+      [options]="cities"
+      [(ngModel)]="selectedUser"
+      optionLabel="name"
+      placeholder="Select a City">
+
+    </p-dropdown>
+  </div>
+  <p-footer>
+    <p-button label="Cancel" (onClick)="cancel()"></p-button>
+    <p-button label="Confirm" (onClick)="confirm()"></p-button>
+  </p-footer>
+</p-dialog>
+
+
+

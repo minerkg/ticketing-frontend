@@ -1,9 +1,11 @@
-<div class="flex flex-wrap gap-2">
-  @for (action of ticketOperationList(); track action) {
+<div class="ticket-actions">
+  @for (action of ticketOperationList; track action) {
     <p-button
       [label]="getLabel(action)"
       [icon]="getIcon(action)"
       (onClick)="onAction(action)">
     </p-button>
   }
+  <app-select-user-modal [open]="selectUserModalIsOpen()" (userSelected)="onAssignedUserSelected($event)"/>
 </div>
+
