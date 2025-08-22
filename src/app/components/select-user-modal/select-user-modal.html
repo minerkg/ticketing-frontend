@@ -1,18 +1,15 @@
 <p-dialog [(visible)]="open" header="Select User" [modal]="true" [style]="{ width: '25rem' }">
-  <div class="p-fluid">
-    <p-dropdown
-      [options]="cities"
+  <div class="card flex justify-content-center">
+    <p-listbox
+      [options]="userList()"
       [(ngModel)]="selectedUser"
-      optionLabel="name"
-      placeholder="Select a City">
-
-    </p-dropdown>
+      [style]="{ 'width': '15rem' }"
+      [listStyle]="{ 'max-height': '220px' }"
+    />
   </div>
-  <p-footer>
-    <p-button label="Cancel" (onClick)="cancel()"></p-button>
-    <p-button label="Confirm" (onClick)="confirm()"></p-button>
-  </p-footer>
+
+  <ng-template pTemplate="footer">
+    <p-button label="Cancel" (onClick)="cancel()" />
+    <p-button label="Confirm" (onClick)="confirm()" [disabled]="!selectedUser" />
+  </ng-template>
 </p-dialog>
-
-
-
