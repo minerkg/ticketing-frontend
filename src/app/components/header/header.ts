@@ -30,6 +30,10 @@ export class Header {
 
     if (this.authService.loggedInUser()) {
       baseItems.push({
+        label: 'Create Ticket',
+        icon: 'pi pi-file', routerLink: ['/create-ticket']
+      });
+      baseItems.push({
         label: 'My profile',
         icon: 'pi pi-users', routerLink: ['/user-profile',
           this.authService.loggedInUser()?.id]

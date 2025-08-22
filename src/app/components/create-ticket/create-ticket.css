@@ -1,0 +1,61 @@
+/* Modal content */
+.p-fluid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* space between fields */
+  padding: 1rem;
+}
+
+/* Each form field wrapper */
+.mb-3 {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Labels */
+.mb-3 label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Inputs & dropdowns full width */
+.mb-3 input,
+.mb-3 textarea,
+.mb-3 p-select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Textarea height */
+.mb-3 textarea {
+  min-height: 80px;
+  resize: vertical;
+  padding: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* Footer buttons */
+.p-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* Optional: style buttons */
+.p-button {
+  min-width: 100px;
+}
+
+/* Optional: adjust dialog header font */
+.p-dialog .p-dialog-header {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+/* Labels */
+.mb-3 label {
+  font-weight: 700;           /* bolder */
+  font-size: 1rem;            /* slightly larger */
+  letter-spacing: 0.5px;      /* subtle spacing for clarity */
+}

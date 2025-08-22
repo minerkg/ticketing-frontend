@@ -7,6 +7,7 @@ import {UserList} from './components/user-list/user-list';
 import {TicketDetail} from './components/ticket-detail/ticket-detail';
 import {TicketList} from './components/ticket-list/ticket-list';
 import {TicketFilters} from './components/ticket-list/filters';
+import {CreateTicket} from './components/create-ticket/create-ticket';
 
 export const routes: Routes = [
   {
@@ -41,6 +42,10 @@ export const routes: Routes = [
   {
     path: 'ticket-detail/:ticketId',
     component: TicketDetail
+  },
+  {
+    path: 'create-ticket',
+    component: CreateTicket
   }
 
 ];

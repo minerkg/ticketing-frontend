@@ -1,0 +1,43 @@
+<p-dialog [(visible)]="open" (visibleChange)="cancel()" header="Create Ticket" [modal]="true" [style]="{ width: '30rem' }">
+  <div class="p-fluid">
+
+    <div class="mb-3">
+      <label>Client</label>
+      <p-select
+        [options]="clients"
+        [(ngModel)]="ticket.client"
+        optionLabel="name"
+        placeholder="Select Client">
+      </p-select>
+    </div>
+
+    <div class="mb-3">
+      <label>Ticket Type</label>
+      <p-select
+        [options]="ticketTypes"
+        [(ngModel)]="ticket.ticketType"
+        placeholder="Select Type">
+      </p-select>
+    </div>
+
+    <div class="mb-3">
+      <label>Ticket Element</label>
+      <p-select
+        [options]="ticketElements"
+        [(ngModel)]="ticket.ticketElementName"
+        placeholder="Select Element">
+      </p-select>
+    </div>
+
+    <div class="mb-3">
+      <label>Description</label>
+      <textarea pInputTextarea [(ngModel)]="ticket.description" rows="5" placeholder="Enter description"></textarea>
+    </div>
+
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button label="Cancel" class="p-button-text" (onClick)="cancel()"></p-button>
+    <p-button label="Create" (onClick)="confirm()" [disabled]="!ticket.client || !ticket.ticketType || !ticket.ticketElementName || !ticket.description"></p-button>
+  </ng-template>
+</p-dialog>
