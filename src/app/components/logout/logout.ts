@@ -4,7 +4,7 @@ import {MessageService} from 'primeng/api';
 import {Card} from 'primeng/card';
 import {Divider} from 'primeng/divider';
 import {Router, RouterLink} from '@angular/router';
-import {ButtonDirective} from 'primeng/button';
+import {Button} from 'primeng/button';
 import {Message} from 'primeng/message';
 
 @Component({
@@ -13,8 +13,8 @@ import {Message} from 'primeng/message';
     Card,
     Divider,
     RouterLink,
-    ButtonDirective,
-    Message
+    Message,
+    Button
   ],
   templateUrl: './logout.html',
   styleUrl: './logout.css'

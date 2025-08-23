@@ -3,7 +3,6 @@ import {AuthService} from '../../services/auth/auth-service';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {Button} from 'primeng/button';
-import {Toast} from 'primeng/toast';
 import {FormsModule} from '@angular/forms';
 import {FloatLabel} from 'primeng/floatlabel';
 import {InputText} from 'primeng/inputtext';
@@ -12,7 +11,6 @@ import {InputText} from 'primeng/inputtext';
   selector: 'app-login',
   imports: [
     Button,
-    Toast,
     FormsModule,
     FloatLabel,
     InputText

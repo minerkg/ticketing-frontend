@@ -14,6 +14,7 @@ import {TicketComment} from '../../models/ticketComment';
 import {InputText} from 'primeng/inputtext';
 import {TicketActionsComponent} from '../ticket-actions/ticket-actions.component';
 import {CommentService} from '../../services/comment.service';
+import {TicketingDateTimePipe} from '../../shared/ticketing-date-time-pipe';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -24,7 +25,8 @@ import {CommentService} from '../../services/comment.service';
     ButtonDirective,
     FormsModule,
     InputText,
-    TicketActionsComponent
+    TicketActionsComponent,
+    TicketingDateTimePipe
   ],
   templateUrl: './ticket-detail.html',
   styleUrl: './ticket-detail.css'
@@ -102,4 +104,5 @@ export class TicketDetail implements OnInit {
   }
 
 
+  protected readonly Ticket = Ticket;
 }
