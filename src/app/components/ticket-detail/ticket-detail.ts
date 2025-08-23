@@ -35,7 +35,6 @@ export class TicketDetail implements OnInit {
   ticketSignal = signal<Ticket | undefined>(undefined);
 
 
-
   constructor(
     private ticketService: TicketService,
     private route: ActivatedRoute,
@@ -47,7 +46,7 @@ export class TicketDetail implements OnInit {
   ngOnInit(): void {
     this.ticketId = Number(this.route.snapshot.paramMap.get('ticketId')) ?? undefined;
     if (!this.ticketId) return;
-    this.ticketService.getTicketById(1).subscribe({
+    this.ticketService.getTicketById(this.ticketId).subscribe({
         next: (ticket) => this.ticketSignal.set(ticket),
         error: (err) => this.messageService.add({
           severity: 'error',
@@ -65,6 +64,11 @@ export class TicketDetail implements OnInit {
     return !!t
       && (currentUser?.id === t.assignedTo?.id
         || this.authService.loggedInUser()?.userRole === User.UserRoleEnum.Admin);
+  }
+
+  onTicketUpdate(event: Ticket) {
+    this.ticketSignal.set(event);
+
   }
 
 

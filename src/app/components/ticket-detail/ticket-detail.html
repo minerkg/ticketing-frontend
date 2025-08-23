@@ -20,7 +20,7 @@
 
         }
         <p-divider></p-divider>
-        <app-ticket-actions [selectedTicket]="ticket"/>
+        <app-ticket-actions [selectedTicket]="ticket" (selectedTicketChange)="onTicketUpdate($event)"/>
 
         <p-divider></p-divider>
         <div class="comment-input-wrap">
