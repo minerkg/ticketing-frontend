@@ -13,6 +13,7 @@ import {FormsModule} from '@angular/forms';
 import {TicketComment} from '../../models/ticketComment';
 import {InputText} from 'primeng/inputtext';
 import {TicketActionsComponent} from '../ticket-actions/ticket-actions.component';
+import {CommentService} from '../../services/comment.service';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -40,6 +41,7 @@ export class TicketDetail implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private messageService: MessageService,
+    private commentService: CommentService,
   ) {
   }
 
@@ -88,7 +90,7 @@ export class TicketDetail implements OnInit {
       t ? {...t, comments: [...(t.comments ?? []), newComment]} : t
     );
 
-    this.ticketService.addComment(ticket.ticketId, newComment).subscribe({
+    this.commentService.addComment(ticket.ticketId, newComment).subscribe({
       next: () => this.newCommentText = '',
       error: () => this.messageService.add({
         severity: 'error',

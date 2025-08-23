@@ -8,6 +8,8 @@ import {ApiResponse} from '../models/api-response';
 import {AuthService} from './auth/auth-service';
 import {TicketComment} from '../models/ticketComment';
 import {User} from '../models/user';
+import {TicketCloseRequest} from '../models/ticketCloseRequest';
+import {TicketUpdateRequest} from '../models/ticketUpdateRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -77,9 +79,31 @@ export class TicketService {
       );
   }
 
+  public closeTicket(ticketId: number, ticketCloseRequest: TicketCloseRequest): Observable<Ticket> {
+    const url = `${this.basePath}/${(this.localVarPath)}/close/${ticketId}`;
+    return this.httpClient
+      .put<ApiResponse<Ticket>>(url, ticketCloseRequest)
+      .pipe(
+        map((response) => response.data),
+        catchError((error) => {
+          console.error('Failed to close ticket', error);
+          return throwError(() => error);
+        })
+      );
+  }
 
-
-
+  public updateTicket(ticketId: number, ticketUpdateRequest: TicketUpdateRequest): Observable<Ticket> {
+    const url = `${this.basePath}/${(this.localVarPath)}/update/${ticketId}`;
+    return this.httpClient
+      .put<ApiResponse<Ticket>>(url, ticketUpdateRequest)
+      .pipe(
+        map((response) => response.data),
+        catchError((error) => {
+          console.error('Failed to update ticket', error);
+          return throwError(() => error);
+        })
+      );
+  }
 
 
   public getCurrentUserAssignedTickets(): Observable<Ticket[]> {
@@ -102,9 +126,4 @@ export class TicketService {
     );
   }
 
-
-  addComment(ticketId: number, newComment: TicketComment): Observable<Ticket | undefined> {
-    //TODO: imlement
-    return new Observable<Ticket | undefined>();
-  }
 }
