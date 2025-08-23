@@ -4,9 +4,9 @@
     <div class="mb-3">
       <label>Client</label>
       <p-select
-        [options]="clients"
-        [(ngModel)]="ticket.client"
-        optionLabel="name"
+        [options]="clientList"
+        [(ngModel)]="ticketCreationRequest.client"
+        optionLabel="firstName"
         placeholder="Select Client">
       </p-select>
     </div>
@@ -14,8 +14,8 @@
     <div class="mb-3">
       <label>Ticket Type</label>
       <p-select
-        [options]="ticketTypes"
-        [(ngModel)]="ticket.ticketType"
+        [options]="ticketTypeList"
+        [(ngModel)]="ticketCreationRequest.ticketType"
         placeholder="Select Type">
       </p-select>
     </div>
@@ -23,21 +23,21 @@
     <div class="mb-3">
       <label>Ticket Element</label>
       <p-select
-        [options]="ticketElements"
-        [(ngModel)]="ticket.ticketElementName"
+        [options]="ticketElementNameList"
+        [(ngModel)]="ticketCreationRequest.ticketElementName"
         placeholder="Select Element">
       </p-select>
     </div>
 
     <div class="mb-3">
       <label>Description</label>
-      <textarea pInputTextarea [(ngModel)]="ticket.description" rows="5" placeholder="Enter description"></textarea>
+      <textarea pInputTextarea [(ngModel)]="ticketCreationRequest.description" rows="5" placeholder="Enter description"></textarea>
     </div>
 
   </div>
 
   <ng-template pTemplate="footer">
     <p-button label="Cancel" class="p-button-text" (onClick)="cancel()"></p-button>
-    <p-button label="Create" (onClick)="confirm()" [disabled]="!ticket.client || !ticket.ticketType || !ticket.ticketElementName || !ticket.description"></p-button>
+    <p-button label="Create" (onClick)="createTicket()" [disabled]="!ticketCreationRequest.client || !ticketCreationRequest.ticketType || !ticketCreationRequest.ticketElementName || !ticketCreationRequest.description"></p-button>
   </ng-template>
 </p-dialog>
