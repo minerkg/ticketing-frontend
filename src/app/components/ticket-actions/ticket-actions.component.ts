@@ -58,36 +58,40 @@ export class TicketActionsComponent implements OnInit {
       case TicketOperation.Assign:
         this.selectUserModalIsOpen.set(true);
         break;
-
       case TicketOperation.View:
         this.viewTicket(this.selectedTicket);
         break;
       case TicketOperation.Cancel:
-        this.ticketService.cancelTicket(this.selectedTicket.ticketId).subscribe({
-          next: (resp) => {
-            this.selectedTicket = resp;
-            this.messageService.add(
-              {
-                severity: 'success',
-                summary: 'Ticket closed successfully',
-                detail: 'Good job!'
-              });
-            this.selectedTicketChange.emit(this.selectedTicket);
-          },
-          error: () => {
-            this.messageService.add(
-              {
-                severity: 'error',
-                summary: 'Failed to cancel the ticket',
-                detail: 'Please try again later',
-              }
-            );
-          },
-        })
+        this.cancelTicket();
         break;
 
       // other actions...
     }
+  }
+
+  private cancelTicket() {
+    this.ticketService.cancelTicket(this.selectedTicket.ticketId).subscribe({
+      next: (resp) => {
+        this.selectedTicket = resp;
+        this.selectedTicketChange.emit(this.selectedTicket);
+        this.messageService.add(
+          {
+            severity: 'success',
+            summary: 'Ticket closed successfully',
+            detail: 'Good job!'
+          });
+
+      },
+      error: () => {
+        this.messageService.add(
+          {
+            severity: 'error',
+            summary: 'Failed to cancel the ticket',
+            detail: 'Please try again later',
+          }
+        );
+      },
+    })
   }
 
   onAssignedUserSelected(event: any) {
