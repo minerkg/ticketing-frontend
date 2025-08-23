@@ -35,7 +35,7 @@
       }
 
       <td>
-        <app-ticket-actions [selectedTicket]="ticket" />
+        <app-ticket-actions [selectedTicket]="ticket" (selectedTicketChange)="onTicketUpdate($event)"  />
       </td>
 
     </tr>

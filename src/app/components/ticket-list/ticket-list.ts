@@ -28,7 +28,6 @@ export class TicketList implements OnInit {
   filteredTicketList = signal<Ticket[]>([]);
 
 
-
   protected readonly Ticket = Ticket;
   private filter?: TicketFilter;
 
@@ -66,6 +65,13 @@ export class TicketList implements OnInit {
       }
 
     });
+  }
+
+  onTicketUpdate(event: any) {
+    this.filteredTicketList
+      .set(this.filteredTicketList()
+        .map(ticket => event.ticketId === ticket.ticketId ? event : ticket));
+
   }
 
   private applyFilter(): void {

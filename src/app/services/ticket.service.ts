@@ -64,6 +64,20 @@ export class TicketService {
   }
 
 
+  public cancelTicket(ticketId: number): Observable<Ticket> {
+    const url = `${this.basePath}/${(this.localVarPath)}/cancel/${ticketId}`;
+    return this.httpClient
+      .put<ApiResponse<Ticket>>(url, null)
+      .pipe(
+        map((response) => response.data),
+        catchError((error) => {
+          console.error('Failed to cancel the ticket', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+
 
 
 
