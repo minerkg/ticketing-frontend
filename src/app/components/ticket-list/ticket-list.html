@@ -19,7 +19,7 @@
       <td>{{ ticket.ticketType }}</td>
       <td>{{ ticket.ticketStatus }}</td>
       <td>{{ ticket.createdBy?.username }}</td>
-      <td>{{ ticket.createdWhen | date:'dd.mm.yyyy hh:mm' }}</td>
+      <td>{{ ticket.createdWhen | ticketingDateTime:true }}</td>
       <td>{{ ticket.assignedTo?.username }}</td>
       <td>{{ ticket.description }}</td>
       @if (ticket.ticketStatus !== Ticket.TicketStatusEnum.Closed

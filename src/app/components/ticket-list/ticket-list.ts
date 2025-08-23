@@ -9,6 +9,7 @@ import {ProgressBar} from 'primeng/progressbar';
 import {TicketFilter, TicketFilters} from './filters';
 import {AuthService} from '../../services/auth/auth-service';
 import {TicketActionsComponent} from '../ticket-actions/ticket-actions.component';
+import {TicketingDateTimePipe} from '../../shared/ticketing-date-time-pipe';
 
 
 @Component({
@@ -17,7 +18,8 @@ import {TicketActionsComponent} from '../ticket-actions/ticket-actions.component
     TableModule,
     DatePipe,
     ProgressBar,
-    TicketActionsComponent
+    TicketActionsComponent,
+    TicketingDateTimePipe
   ],
   templateUrl: './ticket-list.html',
   styleUrl: './ticket-list.css'
