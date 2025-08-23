@@ -44,13 +44,38 @@ export class CreateTicket implements OnInit {
 
   ngOnInit() {
     this.open = true;
-    //this.clientList = this.clientService.getAll().suscribe(); //TODO: ...
-    this.clientList = new Array({firstName: "alma", lastName: "alma", phoneNumber: "", email: ""} as Client);
+    this.clientService.getAll().subscribe(
+      {
+        next: (clientList) => {
+          this.clientList = [...clientList];
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Fetching clients failed',
+            detail: ` ${error} could not fetch clients`
+          })
+        }
+      }
+    );
 
-    //this.ticketElementNameList = this.ticketElementService.getAllActive().suscribe(); //TODO: ...
-    this.ticketElementNameList = new Array('Billing complaint');
+
+    this.ticketElementService.getAllActive().subscribe(
+      {
+        next: (ticketElements) => {
+          this.ticketElementNameList = [...ticketElements.map(element => element.name!)];
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Fetching ticket elements failed',
+            detail: ` ${error} could not fetch ticket elements`
+          })
+        }
+      }
+    );
+
   }
-
 
   set open(bool: boolean) {
     this.display.set(bool);
@@ -62,11 +87,19 @@ export class CreateTicket implements OnInit {
   }
 
   createTicket() {
-    this.ticketCreationRequest!.ticketStatus = Ticket.TicketStatusEnum.New;
-    this.ticketService.createTicket(this.ticketCreationRequest!).subscribe(
+    this.ticketCreationRequest.ticketStatus = Ticket.TicketStatusEnum.New;
+    this.ticketService.createTicket(this.ticketCreationRequest).subscribe(
       {
         next: () => {
-          this.router.navigate(['/all-tickets']);
+          this.display.set(false);
+          this.router.navigate(['/ticket-list']).then(() => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Ticket created',
+              detail: 'Have a nice day!'
+            });
+          });
+
         },
         error: () => {
           this.messageService.add({
@@ -77,8 +110,6 @@ export class CreateTicket implements OnInit {
         }
       }
     )
-
-    this.display.set(false);
   }
 
   cancel() {
