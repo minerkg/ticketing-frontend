@@ -8,6 +8,7 @@ import {TicketDetail} from './components/ticket-detail/ticket-detail';
 import {TicketList} from './components/ticket-list/ticket-list';
 import {TicketFilters} from './components/ticket-list/filters';
 import {CreateTicket} from './components/create-ticket/create-ticket';
+import {CustomerList} from './components/customer-list/customer-list';
 
 export const routes: Routes = [
   {
@@ -46,6 +47,10 @@ export const routes: Routes = [
   {
     path: 'create-ticket',
     component: CreateTicket
+  },
+  {
+    path: 'all-customers',
+    component: CustomerList
   }
 
 ];

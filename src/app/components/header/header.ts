@@ -43,6 +43,11 @@ export class Header {
         icon: 'pi pi-info',
         routerLink: '/my-assigned-tickets'
       });
+      baseItems.push({
+        label: 'All customers',
+        icon: 'pi pi-info',
+        routerLink: '/all-customers',
+      })
     }
 
     if (this.authService.loggedInUserIsAdmin()) {
