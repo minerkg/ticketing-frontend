@@ -24,6 +24,10 @@ export class TicketActionsComponent implements OnInit {
   ticketOperationList = signal<TicketOperation[]>([]);
   @Input() selectedTicket!: Ticket;
   @Output() selectedTicketChange = new EventEmitter<Ticket>();
+  isEditing = signal<boolean>(false);
+
+  @Output() ticketUpdateModeChange = new EventEmitter<boolean>();
+
 
   isTicketDetailPage = false;
   selectUserModalIsOpen = signal(false);
@@ -73,8 +77,12 @@ export class TicketActionsComponent implements OnInit {
         break;
       case TicketOperation.Close:
         this.closeTicket(this.selectedTicket);
+        break;
+      case TicketOperation.Update:
+        this.isEditing.update(current => !current);
+        this.ticketUpdateModeChange.emit(this.isEditing());
+        break;
 
-      // other actions...
     }
   }
 

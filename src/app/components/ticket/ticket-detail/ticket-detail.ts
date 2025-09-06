@@ -6,15 +6,19 @@ import {Ticket} from '../../../models/ticket';
 import {Card} from 'primeng/card';
 import {Divider} from 'primeng/divider';
 import {MessageService} from 'primeng/api';
-import {User} from '../../../models/user';
 import {DatePipe} from '@angular/common';
-import {ButtonDirective} from 'primeng/button';
+import {Button, ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
 import {FormsModule} from '@angular/forms';
 import {TicketComment} from '../../../models/ticketComment';
 import {InputText} from 'primeng/inputtext';
 import {TicketActionsComponent} from '../ticket-actions/ticket-actions.component';
 import {CommentService} from '../../../services/comment.service';
 import {TicketingDateTimePipe} from '../../../shared/ticketing-date-time-pipe';
+import {TicketUpdateRequest} from '../../../models/ticketUpdateRequest';
+import {Textarea} from 'primeng/textarea';
+import {Listbox} from 'primeng/listbox';
+import {TicketElement} from '../../../models/ticketElement';
+import {TicketElementService} from '../../../services/ticket-element.service';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -26,7 +30,10 @@ import {TicketingDateTimePipe} from '../../../shared/ticketing-date-time-pipe';
     FormsModule,
     InputText,
     TicketActionsComponent,
-    TicketingDateTimePipe
+    TicketingDateTimePipe,
+    Textarea,
+    Button,
+    Listbox,
   ],
   templateUrl: './ticket-detail.html',
   styleUrl: './ticket-detail.css'
@@ -38,6 +45,9 @@ export class TicketDetail implements OnInit {
   @Input() hasAddComment = true;
 
   ticketSignal = signal<Ticket | undefined>(undefined);
+  ticketElementList: TicketElement[] = [];
+
+  isEditing = false;
 
 
   constructor(
@@ -46,6 +56,7 @@ export class TicketDetail implements OnInit {
     private authService: AuthService,
     private messageService: MessageService,
     private commentService: CommentService,
+    private ticketElementService: TicketElementService,
   ) {
   }
 
@@ -61,16 +72,42 @@ export class TicketDetail implements OnInit {
         })
       }
     );
+
+    this.ticketElementService.getAllActive().subscribe({
+        next: (ticketElementList) => this.ticketElementList = [...ticketElementList],
+        error: (err) => this.messageService.add({
+          severity: 'error',
+          summary: 'Fetching ticket elements failed',
+          detail: 'Could not fetch ticket elements'
+        })
+      }
+    );
+
+
   }
 
 
-  isEditable(): boolean {
-    const t = this.ticketSignal();
-    const currentUser = this.authService.loggedInUser();
-    return !!t
-      && (currentUser?.id === t.assignedTo?.id
-        || this.authService.loggedInUser()?.userRole === User.UserRoleEnum.Admin);
+  onEditModeChange(editing: boolean) {
+    this.isEditing = editing;
   }
+
+  saveTicket() {
+    if (!this.ticketSignal()) return;
+    const ticketUpdateRequest: TicketUpdateRequest = {
+      ticketElementName: this.ticketSignal()!.ticketElement!.name,
+      description: this.ticketSignal()!.description
+    } as TicketUpdateRequest;
+
+    this.ticketService.updateTicket(this.ticketSignal()!.ticketId, ticketUpdateRequest)
+      .subscribe(() => {
+        this.isEditing = false;
+      });
+  }
+
+  cancelEdit() {
+    this.isEditing = false;
+  }
+
 
   onTicketUpdate(event: Ticket) {
     this.ticketSignal.set(event);
