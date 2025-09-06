@@ -1,4 +1,4 @@
-import {TicketOperation} from '../app/components/ticket-list/ticket-operations';
+import {TicketOperation} from '../app/components/ticket/ticket-list/ticket-operations';
 import {User} from '../app/models/user';
 import {Ticket} from '../app/models/ticket';
 import UserRoleEnum = User.UserRoleEnum;

@@ -1,14 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output, signal} from '@angular/core';
 import {iconMap, labelMap, TicketOperation} from '../ticket-list/ticket-operations';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TicketService} from '../../services/ticket.service';
-import {Ticket} from '../../models/ticket';
+import {TicketService} from '../../../services/ticket.service';
+import {Ticket} from '../../../models/ticket';
 import {Button} from 'primeng/button';
-import {AuthService} from "../../services/auth/auth-service";
-import {SelectUserModal} from "../select-user-modal/select-user-modal";
+import {AuthService} from "../../../services/auth/auth-service";
+import {SelectUserModal} from "../../select-user-modal/select-user-modal";
 import {MessageService} from "primeng/api";
-import {User} from '../../models/user';
-import {TicketPermissionsMatrix} from '../../../environments/environment';
+import {User} from '../../../models/user';
+import {TicketPermissionsMatrix} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-ticket-actions',

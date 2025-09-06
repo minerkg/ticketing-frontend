@@ -5,10 +5,10 @@ import {MessageService, PrimeTemplate} from 'primeng/api';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Select} from 'primeng/select';
 import {Textarea} from 'primeng/textarea';
-import {TicketService} from '../../services/ticket.service';
+import {TicketService} from '../../../services/ticket.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TicketCloseRequest} from '../../models/ticketCloseRequest';
-import {SolutionTypeService} from '../../services/solution-type.service';
+import {TicketCloseRequest} from '../../../models/ticketCloseRequest';
+import {SolutionTypeService} from '../../../services/solution-type.service';
 import {TicketDetail} from '../ticket-detail/ticket-detail';
 
 @Component({

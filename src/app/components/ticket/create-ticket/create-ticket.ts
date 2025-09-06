@@ -1,17 +1,17 @@
 import {Component, OnInit, signal} from '@angular/core';
 import {Dialog} from 'primeng/dialog';
 import {Button} from 'primeng/button';
-import {TicketCreationRequest} from '../../models/ticketCreationRequest';
-import {Customer} from '../../models/customer';
+import {TicketCreationRequest} from '../../../models/ticketCreationRequest';
+import {Customer} from '../../../models/customer';
 import {Textarea} from 'primeng/textarea';
 import {FormsModule} from '@angular/forms';
 import {MessageService, PrimeTemplate} from 'primeng/api';
 import {Select} from 'primeng/select';
-import {TicketService} from '../../services/ticket.service';
+import {TicketService} from '../../../services/ticket.service';
 import {Router} from '@angular/router';
-import {TicketElementService} from '../../services/ticket-element.service';
-import {ClientService} from '../../services/client-service';
-import {Ticket} from '../../models/ticket';
+import {TicketElementService} from '../../../services/ticket-element.service';
+import {ClientService} from '../../../services/client-service';
+import {Ticket} from '../../../models/ticket';
 
 @Component({
   selector: 'app-create-ticket',

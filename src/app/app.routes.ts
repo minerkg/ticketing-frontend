@@ -4,12 +4,12 @@ import {Dashboard} from './components/dashboard/dashboard';
 import {UserProfile} from './components/user-profile/user-profile';
 import {Logout} from './components/logout/logout';
 import {UserList} from './components/user-list/user-list';
-import {TicketDetail} from './components/ticket-detail/ticket-detail';
-import {TicketList} from './components/ticket-list/ticket-list';
-import {TicketFilters} from './components/ticket-list/filters';
-import {CreateTicket} from './components/create-ticket/create-ticket';
+import {TicketDetail} from './components/ticket/ticket-detail/ticket-detail';
+import {TicketList} from './components/ticket/ticket-list/ticket-list';
+import {TicketFilters} from './components/ticket/ticket-list/filters';
+import {CreateTicket} from './components/ticket/create-ticket/create-ticket';
 import {CustomerList} from './components/customer-list/customer-list';
-import {CloseTicket} from './components/close-ticket/close-ticket';
+import {CloseTicket} from './components/ticket/close-ticket/close-ticket';
 
 export const routes: Routes = [
   {

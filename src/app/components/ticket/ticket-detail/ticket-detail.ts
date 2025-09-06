@@ -1,20 +1,20 @@
 import {Component, Input, OnInit, signal} from '@angular/core';
-import {AuthService} from '../../services/auth/auth-service';
+import {AuthService} from '../../../services/auth/auth-service';
 import {ActivatedRoute} from '@angular/router';
-import {TicketService} from '../../services/ticket.service';
-import {Ticket} from '../../models/ticket';
+import {TicketService} from '../../../services/ticket.service';
+import {Ticket} from '../../../models/ticket';
 import {Card} from 'primeng/card';
 import {Divider} from 'primeng/divider';
 import {MessageService} from 'primeng/api';
-import {User} from '../../models/user';
+import {User} from '../../../models/user';
 import {DatePipe} from '@angular/common';
 import {ButtonDirective} from 'primeng/button';
 import {FormsModule} from '@angular/forms';
-import {TicketComment} from '../../models/ticketComment';
+import {TicketComment} from '../../../models/ticketComment';
 import {InputText} from 'primeng/inputtext';
 import {TicketActionsComponent} from '../ticket-actions/ticket-actions.component';
-import {CommentService} from '../../services/comment.service';
-import {TicketingDateTimePipe} from '../../shared/ticketing-date-time-pipe';
+import {CommentService} from '../../../services/comment.service';
+import {TicketingDateTimePipe} from '../../../shared/ticketing-date-time-pipe';
 
 @Component({
   selector: 'app-ticket-detail',

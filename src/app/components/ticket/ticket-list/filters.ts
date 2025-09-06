@@ -1,4 +1,4 @@
-import {Ticket} from '../../models/ticket';
+import {Ticket} from '../../../models/ticket';
 
 export interface TicketFilter {
   name: string;
