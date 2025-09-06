@@ -1,0 +1,26 @@
+<p-dialog [(visible)]="open" (visibleChange)="cancel()" header="Close Ticket" [modal]="true"
+          [style]="{ width: '30rem' }">
+
+  <app-ticket-detail [ticketId]="ticketId" [hasActions]="false" [hasAddComment]="false"/>
+  <div class="p-fluid">
+    <div class="mb-3">
+      <label>Ticket solution type</label>
+      <p-select
+        [options]="solutionTypNameList"
+        [(ngModel)]="ticketCloseRequest.solutionTypeName"
+        placeholder="Select solution type">
+      </p-select>
+    </div>
+    <div class="mb-3">
+      <label>Description</label>
+      <textarea pInputTextarea [(ngModel)]="ticketCloseRequest.solutionDescription" rows="5"
+                placeholder="Enter description"></textarea>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button label="Cancel" class="p-button-text" (onClick)="cancel()"></p-button>
+    <p-button label="Create" (onClick)="closeTicket()"
+              [disabled]="!ticketCloseRequest.solutionTypeName || !ticketCloseRequest.solutionDescription"></p-button>
+  </ng-template>
+</p-dialog>
+

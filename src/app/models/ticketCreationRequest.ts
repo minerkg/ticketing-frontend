@@ -1,9 +1,9 @@
-import {Client} from './client';
+import {Customer} from './customer';
 import {Ticket} from './ticket';
 
 
 export interface TicketCreationRequest {
-  client?: Client;
+  client?: Customer;
   ticketType?: Ticket.TicketTypeEnum;
   ticketElementName?: string;
   description?: string;

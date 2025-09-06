@@ -16,7 +16,6 @@ import {TicketingDateTimePipe} from '../../shared/ticketing-date-time-pipe';
   selector: 'app-ticket-list',
   imports: [
     TableModule,
-    DatePipe,
     ProgressBar,
     TicketActionsComponent,
     TicketingDateTimePipe

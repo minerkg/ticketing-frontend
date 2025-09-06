@@ -64,6 +64,8 @@ export class TicketActionsComponent implements OnInit {
       case TicketOperation.Cancel:
         this.cancelTicket();
         break;
+      case TicketOperation.Close:
+        this.closeTicket(this.selectedTicket);
 
       // other actions...
     }
@@ -115,6 +117,10 @@ export class TicketActionsComponent implements OnInit {
 
   private viewTicket(ticket: Ticket) {
     this.router.navigate(['/ticket-detail', ticket.ticketId]);
+  }
+
+  private closeTicket(selectedTicket: Ticket) {
+    this.router.navigate(['/close-ticket', selectedTicket.ticketId]);
   }
 
 

@@ -3,7 +3,7 @@
     <div class="ticket-detail-wrap">
       <p-card class="ticket-card">
         <h2>Ticket #{{ ticket.ticketId }} - {{ ticket.ticketType }}</h2>
-        <p>Customer: {{ ticket.client?.firstName + " " + ticket.client?.lastName }}</p>
+        <p>Customer: {{ ticket.customer?.firstName + " " + ticket.customer?.lastName }}</p>
         <p>Status: {{ ticket.ticketStatus }}</p>
         <p>Created: {{ ticket.createdWhen | ticketingDateTime:true }}</p>
         <p>Created by: {{ ticket.createdBy?.username }}</p>
@@ -27,9 +27,12 @@
           <p>Cancelled when: {{ ticket.cancelledWhen | ticketingDateTime:true }}</p>
 
         }
+
+        @if (hasActions) {
         <p-divider></p-divider>
         <app-ticket-actions [selectedTicket]="ticket" (selectedTicketChange)="onTicketUpdate($event)"/>
-
+        }
+        @if (hasAddComment) {
         <p-divider></p-divider>
         <div class="comment-input-wrap">
           <input pInputText
@@ -46,10 +49,11 @@
                   class="comment-button">
           </button>
         </div>
-
+        }
 
         <p-divider></p-divider>
 
+        @if ((ticketSignal()?.comments?.length ?? 0) > 0) {
         <h3>Comments</h3>
         @for (comment of ticketSignal()?.comments; track comment.commentedWhen) {
           <div class="comment">
@@ -58,7 +62,7 @@
             <p>Comment: {{ comment.commentText }}</p>
             <p-divider></p-divider>
           </div>
-        }
+        }}
       </p-card>
     </div>
   </ng-container>

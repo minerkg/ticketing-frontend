@@ -2,7 +2,7 @@ import {Component, OnInit, signal} from '@angular/core';
 import {Dialog} from 'primeng/dialog';
 import {Button} from 'primeng/button';
 import {TicketCreationRequest} from '../../models/ticketCreationRequest';
-import {Client} from '../../models/client';
+import {Customer} from '../../models/customer';
 import {Textarea} from 'primeng/textarea';
 import {FormsModule} from '@angular/forms';
 import {MessageService, PrimeTemplate} from 'primeng/api';
@@ -31,7 +31,7 @@ export class CreateTicket implements OnInit {
 
   display = signal(false);
   ticketCreationRequest: TicketCreationRequest = {};
-  clientList?: Client[];
+  clientList?: Customer[];
   ticketTypeList = Object.values(Ticket.TicketTypeEnum);
   ticketElementNameList?: string[];
 

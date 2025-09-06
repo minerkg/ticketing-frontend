@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AuthService} from './auth/auth-service';
-import {Client} from '../models/client';
+import {Customer} from '../models/customer';
 import {catchError, map, Observable, throwError} from 'rxjs';
 import {ApiResponse} from '../models/api-response';
 
@@ -20,9 +20,9 @@ export class ClientService {
   }
 
 
-  public getAll(): Observable<Client[]> {
+  public getAll(): Observable<Customer[]> {
     return this.httpClient
-      .get<ApiResponse<Client[]>>(this.clientUrl, {headers: this.authService.getAuthHeaders()})
+      .get<ApiResponse<Customer[]>>(this.clientUrl, {headers: this.authService.getAuthHeaders()})
       .pipe(
         map((response) => response.data ?? []),
         catchError((error) => {

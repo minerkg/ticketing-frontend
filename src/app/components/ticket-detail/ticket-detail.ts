@@ -34,6 +34,8 @@ import {TicketingDateTimePipe} from '../../shared/ticketing-date-time-pipe';
 export class TicketDetail implements OnInit {
 
   @Input() ticketId: number | undefined;
+  @Input() hasActions = true;
+  @Input() hasAddComment = true;
 
   ticketSignal = signal<Ticket | undefined>(undefined);
 
@@ -105,4 +107,6 @@ export class TicketDetail implements OnInit {
 
 
   protected readonly Ticket = Ticket;
+
+
 }

@@ -1,8 +1,8 @@
 import {Ticket} from './ticket';
 
 
-export interface Client {
-  userId?: string;
+export interface Customer {
+  customerId?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
