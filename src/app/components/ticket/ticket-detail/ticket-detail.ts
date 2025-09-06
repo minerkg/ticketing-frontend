@@ -7,7 +7,7 @@ import {Card} from 'primeng/card';
 import {Divider} from 'primeng/divider';
 import {MessageService} from 'primeng/api';
 import {DatePipe} from '@angular/common';
-import {Button, ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {FormsModule} from '@angular/forms';
 import {TicketComment} from '../../../models/ticketComment';
 import {InputText} from 'primeng/inputtext';
@@ -91,7 +91,7 @@ export class TicketDetail implements OnInit {
     this.isEditing = editing;
   }
 
-  saveTicket() {
+  saveTicketUpdate() {
     if (!this.ticketSignal()) return;
     const ticketUpdateRequest: TicketUpdateRequest = {
       ticketElementName: this.ticketSignal()!.ticketElement!.name,
@@ -99,8 +99,26 @@ export class TicketDetail implements OnInit {
     } as TicketUpdateRequest;
 
     this.ticketService.updateTicket(this.ticketSignal()!.ticketId, ticketUpdateRequest)
-      .subscribe(() => {
-        this.isEditing = false;
+      .subscribe({
+        next: (resp) => {
+          this.isEditing = false;
+          this.messageService.add(
+            {
+              severity: 'success',
+              summary: 'Ticket updated successfully',
+              detail: 'Good job!'
+            });
+
+        },
+        error: () => {
+          this.messageService.add(
+            {
+              severity: 'error',
+              summary: 'Failed to update the ticket',
+              detail: 'Please try again later',
+            }
+          );
+        },
       });
   }
 
