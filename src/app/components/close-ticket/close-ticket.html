@@ -19,7 +19,7 @@
   </div>
   <ng-template pTemplate="footer">
     <p-button label="Cancel" class="p-button-text" (onClick)="cancel()"></p-button>
-    <p-button label="Create" (onClick)="closeTicket()"
+    <p-button label="Resolve ticket" (onClick)="closeTicket()"
               [disabled]="!ticketCloseRequest.solutionTypeName || !ticketCloseRequest.solutionDescription"></p-button>
   </ng-template>
 </p-dialog>
