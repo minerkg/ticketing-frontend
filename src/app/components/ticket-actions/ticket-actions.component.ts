@@ -8,6 +8,7 @@ import {AuthService} from "../../services/auth/auth-service";
 import {SelectUserModal} from "../select-user-modal/select-user-modal";
 import {MessageService} from "primeng/api";
 import {User} from '../../models/user';
+import {TicketPermissionsMatrix} from '../../../environments/environment';
 
 @Component({
   selector: 'app-ticket-actions',
@@ -20,7 +21,7 @@ import {User} from '../../models/user';
 })
 export class TicketActionsComponent implements OnInit {
 
-  ticketOperationList: TicketOperation[] = new Array<TicketOperation>();
+  ticketOperationList = signal<TicketOperation[]>([]);
   @Input() selectedTicket!: Ticket;
   @Output() selectedTicketChange = new EventEmitter<Ticket>();
 
@@ -40,15 +41,21 @@ export class TicketActionsComponent implements OnInit {
     this.activatedRoute.url.subscribe(urlSegments => {
       this.isTicketDetailPage = urlSegments.some(segment => segment.path === 'ticket-detail');
     });
-    if (!this.isTicketDetailPage) {
-      this.ticketOperationList = [...this.ticketOperationList, TicketOperation.View];
-    }
-    if (this.authService.loggedInUserIsAdmin() && !this.selectedTicket.assignedTo) {
-      this.ticketOperationList = [...this.ticketOperationList, TicketOperation.Assign]
-    }
-    if (this.authService.loggedInUserIsAdmin()) {
-      this.ticketOperationList = [...this.ticketOperationList,
-        TicketOperation.Cancel, TicketOperation.Update, TicketOperation.Close];
+
+    const userRole = this.authService.loggedInUserRole();
+    const status = this.selectedTicket.ticketStatus;
+
+    const allowedOps = TicketPermissionsMatrix[userRole!]?.[status!] ?? [];
+
+    this.ticketOperationList.update(current => {
+      const merged = new Set([...current, ...allowedOps]);
+      return Array.from(merged);
+    });
+
+    if (this.isTicketDetailPage) {
+      this.ticketOperationList.update(current =>
+        current.filter(op => op !== TicketOperation.View)
+      );
     }
 
   }

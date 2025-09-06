@@ -1,5 +1,5 @@
 <div class="ticket-actions">
-  @for (action of ticketOperationList; track action) {
+  @for (action of ticketOperationList(); track action) {
     <p-button
       [label]="getLabel(action)"
       [icon]="getIcon(action)"
