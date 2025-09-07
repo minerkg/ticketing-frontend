@@ -1,17 +1,18 @@
 import {Component, OnInit, signal} from '@angular/core';
 import {Dialog} from 'primeng/dialog';
 import {Button} from 'primeng/button';
-import {TicketCreationRequest} from '../../models/ticketCreationRequest';
-import {Client} from '../../models/client';
+import {TicketCreationRequest} from '../../../models/ticketCreationRequest';
+import {Customer} from '../../../models/customer';
 import {Textarea} from 'primeng/textarea';
 import {FormsModule} from '@angular/forms';
 import {MessageService, PrimeTemplate} from 'primeng/api';
 import {Select} from 'primeng/select';
-import {TicketService} from '../../services/ticket.service';
+import {TicketService} from '../../../services/ticket.service';
 import {Router} from '@angular/router';
-import {TicketElementService} from '../../services/ticket-element.service';
-import {ClientService} from '../../services/client-service';
-import {Ticket} from '../../models/ticket';
+import {TicketElementService} from '../../../services/ticket-element.service';
+import {CustomerService} from '../../../services/customer.service';
+import {Ticket} from '../../../models/ticket';
+
 
 @Component({
   selector: 'app-create-ticket',
@@ -30,14 +31,14 @@ export class CreateTicket implements OnInit {
 
 
   display = signal(false);
-  ticketCreationRequest: TicketCreationRequest = {};
-  clientList?: Client[];
+  ticketCreationRequest: TicketCreationRequest = {} as TicketCreationRequest;
+  customerList?: Customer[];
   ticketTypeList = Object.values(Ticket.TicketTypeEnum);
   ticketElementNameList?: string[];
 
   constructor(private ticketService: TicketService,
               private ticketElementService: TicketElementService,
-              private clientService: ClientService,
+              private clientService: CustomerService,
               private messageService: MessageService,
               private router: Router) {
   }
@@ -47,7 +48,7 @@ export class CreateTicket implements OnInit {
     this.clientService.getAll().subscribe(
       {
         next: (clientList) => {
-          this.clientList = [...clientList];
+          this.customerList = [...clientList];
         },
         error: (error) => {
           this.messageService.add({
@@ -79,7 +80,7 @@ export class CreateTicket implements OnInit {
 
   set open(bool: boolean) {
     this.display.set(bool);
-    this.ticketCreationRequest = {};
+    this.ticketCreationRequest = { } as TicketCreationRequest;
   }
 
   get open() {
@@ -101,10 +102,10 @@ export class CreateTicket implements OnInit {
           });
 
         },
-        error: () => {
+        error: (err) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Failed to create new ticket',
+            summary: `Failed to create new ticket:`,
             detail: 'Please try again.'
           })
         }

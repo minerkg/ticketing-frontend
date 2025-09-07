@@ -1,15 +1,18 @@
 <p-dialog [(visible)]="open" header="Select User" [modal]="true" [style]="{ width: '25rem' }">
   <div class="card flex justify-content-center">
-    <p-listbox
+    <p-select
+      class="w-full md:w-56"
       [options]="userList()"
       [(ngModel)]="selectedUser"
       [style]="{ 'width': '15rem' }"
-      [listStyle]="{ 'max-height': '220px' }"
+      [checkmark]="true"
+      [showClear]="true"
+      appendTo="body"
     />
   </div>
 
   <ng-template pTemplate="footer">
-    <p-button label="Cancel" (onClick)="cancel()" />
-    <p-button label="Confirm" (onClick)="confirm()" [disabled]="!selectedUser" />
+    <p-button label="Cancel" (onClick)="cancel()"/>
+    <p-button label="Confirm" (onClick)="confirm()" [disabled]="!selectedUser"/>
   </ng-template>
 </p-dialog>

@@ -1,13 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output, signal} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, signal} from '@angular/core';
 import {iconMap, labelMap, TicketOperation} from '../ticket-list/ticket-operations';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TicketService} from '../../services/ticket.service';
-import {Ticket} from '../../models/ticket';
+import {TicketService} from '../../../services/ticket.service';
+import {Ticket} from '../../../models/ticket';
 import {Button} from 'primeng/button';
-import {AuthService} from "../../services/auth/auth-service";
-import {SelectUserModal} from "../select-user-modal/select-user-modal";
+import {AuthService} from "../../../services/auth/auth-service";
+import {SelectUserModal} from "../../select-user-modal/select-user-modal";
 import {MessageService} from "primeng/api";
-import {User} from '../../models/user';
+import {User} from '../../../models/user';
+import {TicketPermissionsMatrix} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-ticket-actions',
@@ -18,11 +19,16 @@ import {User} from '../../models/user';
   templateUrl: './ticket-actions.component.html',
   styleUrl: './ticket-actions.component.css'
 })
-export class TicketActionsComponent implements OnInit {
+export class TicketActionsComponent implements OnInit , OnChanges {
 
-  ticketOperationList: TicketOperation[] = new Array<TicketOperation>();
+  ticketOperationList = signal<TicketOperation[]>([]);
   @Input() selectedTicket!: Ticket;
   @Output() selectedTicketChange = new EventEmitter<Ticket>();
+  @Input() editing = false;
+  isEditing = signal<boolean>(false);
+
+  @Output() ticketUpdateModeChange = new EventEmitter<boolean>();
+
 
   isTicketDetailPage = false;
   selectUserModalIsOpen = signal(false);
@@ -36,19 +42,29 @@ export class TicketActionsComponent implements OnInit {
   ) {
   }
 
+  ngOnChanges() {
+    this.isEditing.set(this.editing);
+  }
+
   ngOnInit(): void {
     this.activatedRoute.url.subscribe(urlSegments => {
       this.isTicketDetailPage = urlSegments.some(segment => segment.path === 'ticket-detail');
     });
-    if (!this.isTicketDetailPage) {
-      this.ticketOperationList = [...this.ticketOperationList, TicketOperation.View];
-    }
-    if (this.authService.loggedInUserIsAdmin() && !this.selectedTicket.assignedTo) {
-      this.ticketOperationList = [...this.ticketOperationList, TicketOperation.Assign]
-    }
-    if (this.authService.loggedInUserIsAdmin()) {
-      this.ticketOperationList = [...this.ticketOperationList,
-        TicketOperation.Cancel, TicketOperation.Update, TicketOperation.Close];
+
+    const userRole = this.authService.loggedInUserRole();
+    const status = this.selectedTicket.ticketStatus;
+
+    const allowedOps = TicketPermissionsMatrix[userRole!]?.[status!] ?? [];
+
+    this.ticketOperationList.update(current => {
+      const merged = new Set([...current, ...allowedOps]);
+      return Array.from(merged);
+    });
+
+    if (this.isTicketDetailPage) {
+      this.ticketOperationList.update(current =>
+        current.filter(op => op !== TicketOperation.View)
+      );
     }
 
   }
@@ -64,8 +80,12 @@ export class TicketActionsComponent implements OnInit {
       case TicketOperation.Cancel:
         this.cancelTicket();
         break;
-
-      // other actions...
+      case TicketOperation.Close:
+        this.closeTicket(this.selectedTicket);
+        break;
+      case TicketOperation.Update:
+        this.updateTicket(this.selectedTicket);
+        break;
     }
   }
 
@@ -109,12 +129,27 @@ export class TicketActionsComponent implements OnInit {
         );
       }
     });
-
   }
-
 
   private viewTicket(ticket: Ticket) {
     this.router.navigate(['/ticket-detail', ticket.ticketId]);
+  }
+
+  private closeTicket(selectedTicket: Ticket) {
+    this.router.navigate(['/close-ticket', selectedTicket.ticketId]);
+  }
+
+  private updateTicket(ticket: Ticket) {
+    if (!this.isTicketDetailPage) {
+      this.router.navigate(
+        ['/ticket-detail', this.selectedTicket.ticketId],
+        {queryParams: {edit: true}}
+      );
+
+    } else {
+      this.isEditing.update(current => !current);
+      this.ticketUpdateModeChange.emit(this.isEditing());
+    }
   }
 
 
@@ -123,6 +158,9 @@ export class TicketActionsComponent implements OnInit {
   }
 
   getLabel(action: TicketOperation) {
+    if (action === TicketOperation.Update && this.isEditing()) {
+      return 'Editing ..';
+    }
     return labelMap[action];
   }
 

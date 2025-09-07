@@ -38,3 +38,18 @@
     max-width: 100%;
   }
 }
+
+.action-buttons-left {
+  display: flex;
+  gap: 0.75rem;            /* space between buttons */
+  justify-content: flex-start; /* align left */
+  margin-top: 1rem;        /* spacing above */
+}
+
+.action-buttons-left .p-button {
+  height: 28px;            /* small but readable height */
+  min-width: 60px;         /* smaller width */
+  font-size: 0.75rem;      /* smaller text but readable */
+  padding: 0 0.5rem;
+}
+

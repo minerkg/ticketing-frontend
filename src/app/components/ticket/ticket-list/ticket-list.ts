@@ -1,22 +1,21 @@
 import {Component, OnInit, signal} from '@angular/core';
-import {Ticket} from '../../models/ticket';
-import {TicketService} from '../../services/ticket.service';
+import {Ticket} from '../../../models/ticket';
+import {TicketService} from '../../../services/ticket.service';
 import {TableModule} from 'primeng/table';
 import {DatePipe} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {ProgressBar} from 'primeng/progressbar';
 import {TicketFilter, TicketFilters} from './filters';
-import {AuthService} from '../../services/auth/auth-service';
+import {AuthService} from '../../../services/auth/auth-service';
 import {TicketActionsComponent} from '../ticket-actions/ticket-actions.component';
-import {TicketingDateTimePipe} from '../../shared/ticketing-date-time-pipe';
+import {TicketingDateTimePipe} from '../../../shared/ticketing-date-time-pipe';
 
 
 @Component({
   selector: 'app-ticket-list',
   imports: [
     TableModule,
-    DatePipe,
     ProgressBar,
     TicketActionsComponent,
     TicketingDateTimePipe

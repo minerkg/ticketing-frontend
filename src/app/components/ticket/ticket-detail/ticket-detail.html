@@ -3,12 +3,41 @@
     <div class="ticket-detail-wrap">
       <p-card class="ticket-card">
         <h2>Ticket #{{ ticket.ticketId }} - {{ ticket.ticketType }}</h2>
-        <p>Customer: {{ ticket.client?.firstName + " " + ticket.client?.lastName }}</p>
+        <p>Customer: {{ ticket.customer?.firstName + " " + ticket.customer?.lastName }}</p>
         <p>Status: {{ ticket.ticketStatus }}</p>
         <p>Created: {{ ticket.createdWhen | ticketingDateTime:true }}</p>
         <p>Created by: {{ ticket.createdBy?.username }}</p>
-        <p>Ticket element: {{ ticket.ticketElement?.name }}</p>
-        <p>Description: {{ ticket.description }}</p>
+
+        <p>Ticket element:
+          @if (!isEditing) {
+            {{ ticket.ticketElement?.name }}
+          } @else {
+            <p-select class="w-full md:w-56"
+              [options]="ticketElementList"
+                      [(ngModel)]="ticket.ticketElement"
+              optionLabel="name">
+            </p-select>
+          }
+        </p>
+
+        <p>Description:
+          @if (!isEditing) {
+            {{ ticket.description }}
+          } @else {
+            <textarea pInputTextarea [(ngModel)]="ticket.description"></textarea>
+            <div class="action-buttons-left">
+              <p-button type="button" label="Save" icon="pi pi-check"
+                        (onClick)="saveTicketUpdate()"></p-button>
+
+              <p-button type="button" label="Cancel" icon="pi pi-times"
+                        severity="secondary"
+                        (onClick)="cancelEdit()"></p-button>
+            </div>
+
+
+          }
+        </p>
+
         @if (ticket.ticketStatus === Ticket.TicketStatusEnum.Assigned) {
           <p-divider></p-divider>
           <p>Assigned to: {{ ticket.assignedTo?.username }}</p>
@@ -27,9 +56,16 @@
           <p>Cancelled when: {{ ticket.cancelledWhen | ticketingDateTime:true }}</p>
 
         }
-        <p-divider></p-divider>
-        <app-ticket-actions [selectedTicket]="ticket" (selectedTicketChange)="onTicketUpdate($event)"/>
 
+        @if (hasActions) {
+        <p-divider></p-divider>
+        <app-ticket-actions [selectedTicket]="ticket"
+                            (selectedTicketChange)="onTicketUpdate($event)"
+                            (ticketUpdateModeChange)="onEditModeChange($event)"
+                            [editing]="isEditing"
+        />
+        }
+        @if (hasAddComment) {
         <p-divider></p-divider>
         <div class="comment-input-wrap">
           <input pInputText
@@ -46,10 +82,11 @@
                   class="comment-button">
           </button>
         </div>
-
+        }
 
         <p-divider></p-divider>
 
+        @if ((ticketSignal()?.comments?.length ?? 0) > 0) {
         <h3>Comments</h3>
         @for (comment of ticketSignal()?.comments; track comment.commentedWhen) {
           <div class="comment">
@@ -58,7 +95,7 @@
             <p>Comment: {{ comment.commentText }}</p>
             <p-divider></p-divider>
           </div>
-        }
+        }}
       </p-card>
     </div>
   </ng-container>

@@ -13,6 +13,7 @@ export class AuthService {
   readonly loggedIn = signal(false);
   readonly loggedInUser = signal<User | undefined>(undefined);
   readonly loggedInUserIsAdmin = computed(() => this.loggedInUser()?.userRole === User.UserRoleEnum.Admin);
+  readonly loggedInUserRole = computed(() => this.loggedInUser()?.userRole);
 
 
   private authHeaders: HttpHeaders | null = null;

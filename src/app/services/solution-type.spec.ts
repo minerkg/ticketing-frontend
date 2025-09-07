@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SolutionType } from './solution-type';
+import { SolutionTypeService } from './solution-type.service';
 
 describe('SolutionType', () => {
-  let service: SolutionType;
+  let service: SolutionTypeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SolutionType);
+    service = TestBed.inject(SolutionTypeService);
   });
 
   it('should be created', () => {

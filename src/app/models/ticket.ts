@@ -2,13 +2,13 @@ import {User} from './user';
 import {TicketElement} from './ticketElement';
 import {SolutionType} from './solutionType';
 import {TicketComment} from './ticketComment';
-import {Client} from './client';
+import {Customer} from './customer';
 
 
 export interface Ticket {
 
   ticketId: number;
-  client?: Client;
+  customer: Customer;
   ticketType: Ticket.TicketTypeEnum;
   ticketElement?: TicketElement;
   createdWhen: string;
