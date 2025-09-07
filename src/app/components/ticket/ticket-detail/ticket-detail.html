@@ -12,14 +12,11 @@
           @if (!isEditing) {
             {{ ticket.ticketElement?.name }}
           } @else {
-            <p-listbox class="w-full md:w-56"
+            <p-select class="w-full md:w-56"
               [options]="ticketElementList"
-              [(ngModel)]="ticket.ticketElement!"
-              optionLabel="name"
-              [checkmark]="true"
-              [highlightOnSelect]="false">
-            </p-listbox>
-
+                      [(ngModel)]="ticket.ticketElement"
+              optionLabel="name">
+            </p-select>
           }
         </p>
 

@@ -9,7 +9,7 @@ import {ApiResponse} from '../models/api-response';
 @Injectable({
   providedIn: 'root'
 })
-export class ClientService {
+export class CustomerService {
 
   private readonly localVarPath = `customer`;
   private readonly basePath = environment.apiBasePath;

@@ -16,9 +16,9 @@ import {CommentService} from '../../../services/comment.service';
 import {TicketingDateTimePipe} from '../../../shared/ticketing-date-time-pipe';
 import {TicketUpdateRequest} from '../../../models/ticketUpdateRequest';
 import {Textarea} from 'primeng/textarea';
-import {Listbox} from 'primeng/listbox';
 import {TicketElement} from '../../../models/ticketElement';
 import {TicketElementService} from '../../../services/ticket-element.service';
+import {Select} from 'primeng/select';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -33,7 +33,7 @@ import {TicketElementService} from '../../../services/ticket-element.service';
     TicketingDateTimePipe,
     Textarea,
     Button,
-    Listbox,
+    Select,
   ],
   templateUrl: './ticket-detail.html',
   styleUrl: './ticket-detail.css'

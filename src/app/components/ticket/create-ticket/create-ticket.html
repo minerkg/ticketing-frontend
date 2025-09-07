@@ -4,10 +4,11 @@
     <div class="mb-3">
       <label>Customer</label>
       <p-select
-        [options]="clientList"
-        [(ngModel)]="ticketCreationRequest.client"
+        [options]="customerList"
+        [(ngModel)]="ticketCreationRequest.customerId"
         optionLabel="firstName"
-        placeholder="Select Customer">
+        placeholder="Select Customer"
+        optionValue="customerId">
       </p-select>
     </div>
 
@@ -38,6 +39,6 @@
 
   <ng-template pTemplate="footer">
     <p-button label="Cancel" class="p-button-text" (onClick)="cancel()"></p-button>
-    <p-button label="Create" (onClick)="createTicket()" [disabled]="!ticketCreationRequest.client || !ticketCreationRequest.ticketType || !ticketCreationRequest.ticketElementName || !ticketCreationRequest.description"></p-button>
+    <p-button label="Create" (onClick)="createTicket()" [disabled]="!ticketCreationRequest.customerId || !ticketCreationRequest.ticketType || !ticketCreationRequest.ticketElementName || !ticketCreationRequest.description"></p-button>
   </ng-template>
 </p-dialog>

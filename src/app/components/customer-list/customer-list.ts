@@ -2,7 +2,7 @@ import {Component, OnInit, signal} from '@angular/core';
 import {PrimeTemplate} from 'primeng/api';
 import {TableModule} from 'primeng/table';
 import {Customer} from '../../models/customer';
-import {ClientService} from '../../services/client-service';
+import {CustomerService} from '../../services/customer.service';
 
 @Component({
   selector: 'app-customer-list',
@@ -18,7 +18,7 @@ export class CustomerList implements OnInit {
 
   customerList = signal<Customer[]>([]);
 
-  constructor(protected clientService: ClientService) {
+  constructor(protected clientService: CustomerService) {
   }
 
 
