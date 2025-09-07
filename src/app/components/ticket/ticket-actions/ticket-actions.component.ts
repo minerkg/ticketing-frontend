@@ -30,6 +30,7 @@ export class TicketActionsComponent implements OnInit {
 
 
   isTicketDetailPage = false;
+  isTicketListPage = false;
   selectUserModalIsOpen = signal(false);
 
 
@@ -79,10 +80,8 @@ export class TicketActionsComponent implements OnInit {
         this.closeTicket(this.selectedTicket);
         break;
       case TicketOperation.Update:
-        this.isEditing.update(current => !current);
-        this.ticketUpdateModeChange.emit(this.isEditing());
+        this.updateTicket(this.selectedTicket);
         break;
-
     }
   }
 
@@ -126,9 +125,7 @@ export class TicketActionsComponent implements OnInit {
         );
       }
     });
-
   }
-
 
   private viewTicket(ticket: Ticket) {
     this.router.navigate(['/ticket-detail', ticket.ticketId]);
@@ -136,6 +133,19 @@ export class TicketActionsComponent implements OnInit {
 
   private closeTicket(selectedTicket: Ticket) {
     this.router.navigate(['/close-ticket', selectedTicket.ticketId]);
+  }
+
+  private updateTicket(ticket: Ticket) {
+    if (!this.isTicketDetailPage) {
+      this.router.navigate(
+        ['/ticket-detail', this.selectedTicket.ticketId],
+        {queryParams: {edit: true}}
+      );
+
+    } else {
+      this.isEditing.update(current => !current);
+      this.ticketUpdateModeChange.emit(this.isEditing());
+    }
   }
 
 

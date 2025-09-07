@@ -63,6 +63,13 @@ export class TicketDetail implements OnInit {
   ngOnInit(): void {
     this.ticketId = Number(this.route.snapshot.paramMap.get('ticketId')) ?? undefined;
     if (!this.ticketId) return;
+
+    this.route.queryParams.subscribe(params => {
+      if (params['edit']) {
+        this.isEditing = true;
+      }
+    });
+
     this.ticketService.getTicketById(this.ticketId).subscribe({
         next: (ticket) => this.ticketSignal.set(ticket),
         error: (err) => this.messageService.add({
@@ -82,6 +89,8 @@ export class TicketDetail implements OnInit {
         })
       }
     );
+
+
 
 
   }
