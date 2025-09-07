@@ -11,7 +11,7 @@ export const environment = {
 
 export const TicketPermissionsMatrix: Record<UserRoleEnum, Partial<Record<TicketStatusEnum, TicketOperation[]>>> = {
   [UserRoleEnum.Admin]: {
-    [TicketStatusEnum.New]:        [TicketOperation.View, TicketOperation.Assign, TicketOperation.Update, TicketOperation.Cancel],
+    [TicketStatusEnum.New]:        [TicketOperation.View, TicketOperation.Assign, TicketOperation.Cancel],
     [TicketStatusEnum.Assigned]:   [TicketOperation.View, TicketOperation.Update, TicketOperation.Close, TicketOperation.Cancel],
     [TicketStatusEnum.InProgress]: [TicketOperation.View, TicketOperation.Update, TicketOperation.Close, TicketOperation.Cancel],
     [TicketStatusEnum.Closed]:     [TicketOperation.View],
