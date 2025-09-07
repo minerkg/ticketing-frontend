@@ -1,1 +1,40 @@
-<p>register works!</p>
+<p-card class="register-card">
+  <ng-template pTemplate="title">
+    <h2>Employee account creation</h2>
+  </ng-template>
+
+  <form #form="ngForm" (ngSubmit)="submit(form)" class="register-form">
+    <div class="form-row">
+      <p-floatLabel>
+        <input pInputText name="firstName" [(ngModel)]="user.firstName" required />
+        <label>First Name</label>
+      </p-floatLabel>
+
+      <p-floatLabel>
+        <input pInputText name="lastName" [(ngModel)]="user.lastName" required />
+        <label>Last Name</label>
+      </p-floatLabel>
+    </div>
+
+    <div class="form-row">
+      <p-floatLabel>
+        <input pInputText name="username" [(ngModel)]="user.username" required />
+        <label>Username</label>
+      </p-floatLabel>
+
+      <p-floatLabel>
+        <input pInputText type="email" name="email" [(ngModel)]="user.email" required />
+        <label>Email</label>
+      </p-floatLabel>
+    </div>
+
+    <p-floatLabel class="full-width">
+      <p-password name="password" [(ngModel)]="user.password" required [toggleMask]="true"></p-password>
+      <label>Password</label>
+    </p-floatLabel>
+
+    <div class="submit-container">
+      <p-button type="submit" label="Register" [disabled]="form.invalid || submitting"></p-button>
+    </div>
+  </form>
+</p-card>

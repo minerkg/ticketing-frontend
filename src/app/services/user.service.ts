@@ -2,9 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ApiResponse} from '../models/api-response';
 import {User} from '../models/user';
-import {catchError, map, of} from 'rxjs';
+import {catchError, map, of, throwError} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {AuthService} from './auth/auth-service';
+import {UserRegistrationRequest} from '../models/userRegistrationRequest';
 
 
 @Injectable({
@@ -12,14 +13,16 @@ import {AuthService} from './auth/auth-service';
 })
 export class UserService {
 
+  private readonly localVarPath = `user`;
   protected readonly basePath = environment.apiBasePath;
+  private readonly ticketingUserUrl = `${this.basePath}/${this.localVarPath}`;
 
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private httpClient: HttpClient, private authService: AuthService) {
   }
 
   getAllUsers() {
-    const usersUrl = `${this.basePath}/user/all-users`;
-    return this.http
+    const usersUrl = `${this.ticketingUserUrl}/all-users`;
+    return this.httpClient
       .get<ApiResponse<User[]>>(usersUrl, {headers: this.authService.getAuthHeaders()})
       .pipe(
         map((response) => response.data ?? []),
@@ -34,6 +37,19 @@ export class UserService {
     return this.getAllUsers().pipe(
       map(users => users.find(user => user.id === userId) ?? undefined)
     );
+  }
+
+  registerNewUser(userRegistrationRequest: UserRegistrationRequest) {
+    const registerUrl = `${this.ticketingUserUrl}/register`;
+    return this.httpClient
+      .post<ApiResponse<User>>(registerUrl, userRegistrationRequest)
+      .pipe(
+        map((response) => response.data),
+        catchError((error) => {
+          console.error('Failed to create new user', error);
+          return throwError(() => error);
+        })
+      );
   }
 
 
