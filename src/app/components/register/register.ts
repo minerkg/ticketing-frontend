@@ -6,8 +6,11 @@ import {Password} from 'primeng/password';
 import {FormsModule} from '@angular/forms';
 import {UserRegistrationRequest} from '../../models/userRegistrationRequest';
 import {InputText} from 'primeng/inputtext';
-import {Button, ButtonDirective} from 'primeng/button';
+import {Button} from 'primeng/button';
 import {FloatLabel} from 'primeng/floatlabel';
+import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth/auth-service';
+import {finalize, switchMap, tap} from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +19,6 @@ import {FloatLabel} from 'primeng/floatlabel';
     Password,
     FormsModule,
     InputText,
-    ButtonDirective,
     Button,
     FloatLabel,
     PrimeTemplate
@@ -30,22 +32,43 @@ export class Register {
   user =
     {username: '', password: '', firstName: '', lastName: '', email: ''} as UserRegistrationRequest;
 
-  constructor(private userService: UserService, private messageService: MessageService) {
+  constructor(private userService: UserService,
+              private messageService: MessageService,
+              private router: Router,
+              private authService: AuthService) {
   }
 
 
   submit(form: any) {
     if (form.invalid) return;
     this.submitting = true;
-    this.userService.registerNewUser(this.user).subscribe({
+
+    this.userService.registerNewUser(this.user).pipe(
+      tap(() => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Account created',
+          detail: 'Welcome!',
+        });
+      }),
+      switchMap(() => this.authService.login({username: this.user.username, password: this.user.password})),
+      finalize(() => this.submitting = false)
+    ).subscribe({
       next: () => {
-        this.messageService.add({severity: 'success', summary: 'Account created', detail: 'Welcome!'});
+        const userId = this.authService.loggedInUser()?.id;
+        if (userId) {
+          this.router.navigate(['/user-profile', userId]);
+        }
         form.resetForm();
+        this.user = {} as UserRegistrationRequest;
       },
       error: (err) => {
-        this.messageService.add({severity: 'error', summary: 'Registration failed', detail: err?.error?.message});
-      },
-      complete: () => (this.submitting = false),
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Registration failed',
+          detail: err?.error?.message || 'Please try again later.',
+        });
+      }
     });
   }
 

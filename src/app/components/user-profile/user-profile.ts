@@ -28,12 +28,16 @@ export class UserProfile implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.paramMap.get('userId') ?? undefined;
-    if (!this.userId) return;
-    this.userService.findUserById(this.userId).subscribe(response => {
-      this.user = response;
+    this.route.paramMap.subscribe(params => {
+      const userId = params.get('userId');
+      if (!userId) return;
+      this.userId = userId;
+      this.userService.findUserById(userId).subscribe(user => {
+        this.user = user;
+      });
     });
   }
+
 
 
   roles = Object.values(User.UserRoleEnum);
