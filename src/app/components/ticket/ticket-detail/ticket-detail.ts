@@ -89,10 +89,6 @@ export class TicketDetail implements OnInit {
         })
       }
     );
-
-
-
-
   }
 
 

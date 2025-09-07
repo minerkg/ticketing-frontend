@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, signal} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, signal} from '@angular/core';
 import {iconMap, labelMap, TicketOperation} from '../ticket-list/ticket-operations';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TicketService} from '../../../services/ticket.service';
@@ -19,18 +19,18 @@ import {TicketPermissionsMatrix} from '../../../../environments/environment';
   templateUrl: './ticket-actions.component.html',
   styleUrl: './ticket-actions.component.css'
 })
-export class TicketActionsComponent implements OnInit {
+export class TicketActionsComponent implements OnInit , OnChanges {
 
   ticketOperationList = signal<TicketOperation[]>([]);
   @Input() selectedTicket!: Ticket;
   @Output() selectedTicketChange = new EventEmitter<Ticket>();
+  @Input() editing = false;
   isEditing = signal<boolean>(false);
 
   @Output() ticketUpdateModeChange = new EventEmitter<boolean>();
 
 
   isTicketDetailPage = false;
-  isTicketListPage = false;
   selectUserModalIsOpen = signal(false);
 
 
@@ -40,6 +40,10 @@ export class TicketActionsComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private messageService: MessageService
   ) {
+  }
+
+  ngOnChanges() {
+    this.isEditing.set(this.editing);
   }
 
   ngOnInit(): void {
@@ -154,6 +158,9 @@ export class TicketActionsComponent implements OnInit {
   }
 
   getLabel(action: TicketOperation) {
+    if (action === TicketOperation.Update && this.isEditing()) {
+      return 'Editing ..';
+    }
     return labelMap[action];
   }
 

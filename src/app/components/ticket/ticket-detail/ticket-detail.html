@@ -61,7 +61,9 @@
         <p-divider></p-divider>
         <app-ticket-actions [selectedTicket]="ticket"
                             (selectedTicketChange)="onTicketUpdate($event)"
-                            (ticketUpdateModeChange)="onEditModeChange($event)"/>
+                            (ticketUpdateModeChange)="onEditModeChange($event)"
+                            [editing]="isEditing"
+        />
         }
         @if (hasAddComment) {
         <p-divider></p-divider>
