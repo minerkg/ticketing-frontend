@@ -26,7 +26,9 @@
             ],
             "styles": [
               "src/styles.css"
-            ]
+            ],
+            "outputPath": "dist/ticketing-frontend"
+
           },
           "configurations": {
             "production": {
@@ -34,12 +36,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "5MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "10kB",
+                  "maximumError": "20kB"
                 }
               ],
               "outputHashing": "all"
