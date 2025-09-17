@@ -6,8 +6,10 @@ import TicketStatusEnum = Ticket.TicketStatusEnum;
 
 
 export const environment = {
+  production: false,
   apiBasePath: 'http://localhost:8080/api-v1'
 };
+
 
 export const TicketPermissionsMatrix: Record<UserRoleEnum, Partial<Record<TicketStatusEnum, TicketOperation[]>>> = {
   [UserRoleEnum.Admin]: {
