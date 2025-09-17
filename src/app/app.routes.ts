@@ -10,6 +10,7 @@ import {TicketFilters} from './components/ticket/ticket-list/filters';
 import {CreateTicket} from './components/ticket/create-ticket/create-ticket';
 import {CustomerList} from './components/customer-list/customer-list';
 import {CloseTicket} from './components/ticket/close-ticket/close-ticket';
+import {Register} from './components/register/register';
 
 export const routes: Routes = [
   {
@@ -56,6 +57,10 @@ export const routes: Routes = [
   {
     path: 'close-ticket/:ticketId',
     component: CloseTicket
+  },
+  {
+    path: 'register',
+    component: Register
   }
 
 ];

@@ -1,6 +1,6 @@
 import {Component, OnInit, signal} from '@angular/core';
 import {AuthService} from '../../services/auth/auth-service';
-import {Router} from '@angular/router';
+import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {Button} from 'primeng/button';
 import {FormsModule} from '@angular/forms';
@@ -13,7 +13,10 @@ import {InputText} from 'primeng/inputtext';
     Button,
     FormsModule,
     FloatLabel,
-    InputText
+    InputText,
+    RouterLink,
+    RouterOutlet
+
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
