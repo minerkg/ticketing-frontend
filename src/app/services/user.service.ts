@@ -39,6 +39,20 @@ export class UserService {
     );
   }
 
+  findMyUsersDetail() {
+    const usersUrl = `${this.ticketingUserUrl}/me`;
+    return this.httpClient
+      .get<ApiResponse<User>>(usersUrl, {headers: this.authService.getAuthHeaders()})
+      .pipe(
+        map((response) => response.data ?? undefined),
+        catchError((error) => {
+          console.error('Failed to load users profile, error');
+          return throwError(() => error);
+        })
+      );
+  }
+
+
   registerNewUser(userRegistrationRequest: UserRegistrationRequest) {
     const registerUrl = `${this.ticketingUserUrl}/register`;
     return this.httpClient
