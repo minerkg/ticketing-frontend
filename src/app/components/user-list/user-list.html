@@ -14,8 +14,32 @@
       <td>{{ user.userRole }}</td>
       <td>{{ user.email }}</td>
       <td>
-<!--        <button pButton type="button" label="View" icon="pi pi-user" (click)="viewUser(user)"></button>-->
+        <div class="actions mb-3">
+          <p-button
+            type="button"
+            label="View"
+            icon="pi pi-user"
+            (click)="viewUser(user.id)"
+          ></p-button>
+          @if (loggedInUserRole === UserRoleEnum.Admin) {
+            <p-select
+              [options]="roleList"
+              [(ngModel)]="user.userRole"
+              placeholder="Select role"
+              appendTo="body"
+            >
+            </p-select>
+
+            <p-button
+              type="button"
+              label="Edit role"
+              icon="pi pi-pencil"
+              (click)="updateUserRole(user)">
+            </p-button>
+          }
+        </div>
       </td>
+
     </tr>
   </ng-template>
 </p-table>

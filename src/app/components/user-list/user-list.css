@@ -1,0 +1,24 @@
+td .actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+::ng-deep .p-button {
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+
+.mb-3 .p-select {
+  box-sizing: border-box;
+  border-radius: 6px;
+  min-width: 120px;
+  font-size: 0.85rem;
+  height: 2.5rem;
+
+}
+
+
+

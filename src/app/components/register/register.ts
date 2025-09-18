@@ -10,7 +10,7 @@ import {Button} from 'primeng/button';
 import {FloatLabel} from 'primeng/floatlabel';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth/auth-service';
-import {finalize, switchMap, tap} from 'rxjs';
+import {finalize, tap} from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -48,19 +48,17 @@ export class Register {
         this.messageService.add({
           severity: 'success',
           summary: 'Account created',
-          detail: 'Welcome!',
+          detail: 'Please check your email to confirm your account.',
         });
       }),
-      switchMap(() => this.authService.login({username: this.user.username, password: this.user.password})),
       finalize(() => this.submitting = false)
     ).subscribe({
       next: () => {
-        const userId = this.authService.loggedInUser()?.id;
-        if (userId) {
-          this.router.navigate(['/user-profile', userId]);
-        }
         form.resetForm();
         this.user = {} as UserRegistrationRequest;
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 4000);
       },
       error: (err) => {
         this.messageService.add({
