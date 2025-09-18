@@ -6,6 +6,8 @@ import {DatePipe} from '@angular/common';
 import {Card} from 'primeng/card';
 import {UserService} from '../../services/user.service';
 import {ActivatedRoute} from '@angular/router';
+import {UserDetailUpdate} from '../../models/user-detail-update';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-user-profile',
@@ -23,7 +25,9 @@ export class UserProfile implements OnInit {
   @Input() protected userId: string | undefined;
   protected user: User | undefined;
 
-  constructor(private userService: UserService, private route: ActivatedRoute) {
+  constructor(private userService: UserService,
+              private route: ActivatedRoute,
+              private messageService: MessageService) {
   }
 
   ngOnInit(): void {
@@ -37,13 +41,47 @@ export class UserProfile implements OnInit {
     });
   }
 
+  saveUpdatedDetails() {
+    let userDetailUpdate = {
+      userId: this.user?.id,
+      username: this.user?.username,
+      firstName: this.user?.firstName,
+      lastName: this.user?.lastName,
+      email: this.user?.email,
+    } as UserDetailUpdate;
 
-  roles = Object.values(User.UserRoleEnum);
+    this.userService.updateUserDetail(userDetailUpdate).subscribe(
+      {
+        next: updatedUser => {
+          this.user = updatedUser;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Update Successful',
+            detail: 'User details have been updated successfully.',
+          });
+        },
+        error: err => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Update Failed',
+            detail: err.error?.message || 'Something went wrong while updating user details.',
+          });
+        },
+      }
+    )
+  }
+
 
   editMode = false;
 
   toggleEdit() {
     this.editMode = !this.editMode;
   }
+
+  onSaveClicked() {
+    this.toggleEdit();
+    this.saveUpdatedDetails();
+  }
+
 
 }

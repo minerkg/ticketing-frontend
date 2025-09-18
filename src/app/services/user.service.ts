@@ -6,6 +6,7 @@ import {catchError, map, of, throwError} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {AuthService} from './auth/auth-service';
 import {UserRegistrationRequest} from '../models/userRegistrationRequest';
+import {UserDetailUpdate} from '../models/user-detail-update';
 
 
 @Injectable({
@@ -65,6 +66,36 @@ export class UserService {
         })
       );
   }
+
+  updateUserDetail(userDetailUpdate: UserDetailUpdate) {
+    const registerUrl = `${this.ticketingUserUrl}/update-detail`;
+    return this.httpClient
+      .put<ApiResponse<User>>(registerUrl, userDetailUpdate)
+      .pipe(
+        map((response) => response.data),
+        catchError((error) => {
+          console.error('Failed to update user detail', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  // updateUserRole(userRegistrationRequest: UserRegistrationRequest) {
+  //   const registerUrl = `${this.ticketingUserUrl}/register`;
+  //   return this.httpClient
+  //     .post<ApiResponse<User>>(registerUrl, userRegistrationRequest)
+  //     .pipe(
+  //       map((response) => response.data),
+  //       catchError((error) => {
+  //         console.error('Failed to create new user', error);
+  //         return throwError(() => error);
+  //       })
+  //     );
+  // }
+
+
+
+
 
 
 }
