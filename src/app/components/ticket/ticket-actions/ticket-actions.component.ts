@@ -9,6 +9,7 @@ import {SelectUserModal} from "../../select-user-modal/select-user-modal";
 import {MessageService} from "primeng/api";
 import {User} from '../../../models/user';
 import {TicketPermissionsMatrix} from '../../../../environments/environment';
+import UserRoleEnum = User.UserRoleEnum;
 
 @Component({
   selector: 'app-ticket-actions',
@@ -65,6 +66,18 @@ export class TicketActionsComponent implements OnInit , OnChanges {
       this.ticketOperationList.update(current =>
         current.filter(op => op !== TicketOperation.View)
       );
+    }
+
+    if (userRole === UserRoleEnum.User) {
+      const loggedInUser = this.authService.loggedInUser();
+      if (
+        this.selectedTicket.assignedTo &&
+        this.selectedTicket.assignedTo.id !== loggedInUser!.id
+      ) {
+        this.ticketOperationList.update(current =>
+          current.filter(op => op !== TicketOperation.Close)
+        );
+      }
     }
 
   }
