@@ -82,7 +82,7 @@ export class UserService {
   }
 
   updateUserRole(roleUpdateRequest: RoleUpdateRequest) {
-    const registerUrl = `${this.ticketingUserUrl}/register`;
+    const registerUrl = `${this.ticketingUserUrl}/role`;
     return this.httpClient
       .put<ApiResponse<User>>(registerUrl, roleUpdateRequest)
       .pipe(
