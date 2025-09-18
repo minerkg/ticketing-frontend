@@ -7,6 +7,7 @@ import {environment} from '../../environments/environment';
 import {AuthService} from './auth/auth-service';
 import {UserRegistrationRequest} from '../models/userRegistrationRequest';
 import {UserDetailUpdate} from '../models/user-detail-update';
+import {RoleUpdateRequest} from '../models/role-update-request';
 
 
 @Injectable({
@@ -80,18 +81,18 @@ export class UserService {
       );
   }
 
-  // updateUserRole(userRegistrationRequest: UserRegistrationRequest) {
-  //   const registerUrl = `${this.ticketingUserUrl}/register`;
-  //   return this.httpClient
-  //     .post<ApiResponse<User>>(registerUrl, userRegistrationRequest)
-  //     .pipe(
-  //       map((response) => response.data),
-  //       catchError((error) => {
-  //         console.error('Failed to create new user', error);
-  //         return throwError(() => error);
-  //       })
-  //     );
-  // }
+  updateUserRole(roleUpdateRequest: RoleUpdateRequest) {
+    const registerUrl = `${this.ticketingUserUrl}/register`;
+    return this.httpClient
+      .put<ApiResponse<User>>(registerUrl, roleUpdateRequest)
+      .pipe(
+        map((response) => response.data),
+        catchError((error) => {
+          console.error('Failed to update users role', error);
+          return throwError(() => error);
+        })
+      );
+  }
 
 
 
