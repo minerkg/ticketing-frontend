@@ -1,10 +1,9 @@
-import {Component, EventEmitter, Input, Output, signal} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, signal} from '@angular/core';
 import {User} from '../../models/user';
 import {Dialog} from 'primeng/dialog';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UserService} from '../../services/user.service';
 import {SelectModule} from 'primeng/select';
-import {Listbox} from 'primeng/listbox';
 import {Button} from 'primeng/button';
 
 
@@ -15,7 +14,6 @@ import {Button} from 'primeng/button';
     FormsModule,
     SelectModule,
     ReactiveFormsModule,
-    Listbox,
     Button,
 
   ],
@@ -29,15 +27,14 @@ export class SelectUserModal {
 
   @Output() userSelected = new EventEmitter<User>();
 
+
   @Input()
   set open(value: boolean) {
     this.displaySignal.set(value);
-    this.userService.getAllUsers().subscribe(
-      (users) => this.userList.set(users.map((user: User) => ({
-        label: user.username!,
-        value: user
-      }))));
 
+    if (value) {
+      this.loadUsers();
+    }
     this.selectedUser = undefined;
   }
 
@@ -59,5 +56,16 @@ export class SelectUserModal {
 
   cancel() {
     this.displaySignal.set(false);
+  }
+
+  private loadUsers() {
+    this.userService.getAllUsers().subscribe(users =>
+      this.userList.set(
+        users.map(user => ({
+          label: user.username!,
+          value: user,
+        }))
+      )
+    );
   }
 }

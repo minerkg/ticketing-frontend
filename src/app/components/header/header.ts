@@ -47,12 +47,16 @@ export class Header {
         label: 'All customers',
         icon: 'pi pi-info',
         routerLink: '/all-customers',
+      });
+      baseItems.push({
+        label: 'All tickets',
+        icon: 'pi pi-chart-line',
+        routerLink: '/ticket-list'
       })
     }
 
     if (this.authService.loggedInUserIsAdmin()) {
       baseItems.push({label: 'All users', icon: 'pi pi-users', routerLink: '/user-list'});
-      baseItems.push({label: 'All tickets', icon: 'pi pi-chart-line', routerLink: '/ticket-list'},)
     }
     return baseItems;
   });
