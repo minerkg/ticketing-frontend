@@ -71,7 +71,10 @@ export class Header {
 
   logout() {
     this.router.navigate(['/logout']);
+  }
 
+  register() {
+    this.router.navigate(['/register']);
   }
 
 }
