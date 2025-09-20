@@ -11,6 +11,7 @@ import {FloatLabel} from 'primeng/floatlabel';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth/auth-service';
 import {finalize, tap} from 'rxjs';
+import {Dialog} from 'primeng/dialog';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +22,8 @@ import {finalize, tap} from 'rxjs';
     InputText,
     Button,
     FloatLabel,
-    PrimeTemplate
+    PrimeTemplate,
+    Dialog
   ],
   templateUrl: './register.html',
   styleUrl: './register.css'
@@ -31,6 +33,10 @@ export class Register {
   submitting = false;
   user =
     {username: '', password: '', firstName: '', lastName: '', email: ''} as UserRegistrationRequest;
+
+  showDialog: boolean = false;
+
+
 
   constructor(private userService: UserService,
               private messageService: MessageService,
@@ -50,6 +56,7 @@ export class Register {
           summary: 'Account created',
           detail: 'Please check your email to confirm your account.',
         });
+        this.onAccountCreated();
       }),
       finalize(() => this.submitting = false)
     ).subscribe({
@@ -58,7 +65,7 @@ export class Register {
         this.user = {} as UserRegistrationRequest;
         setTimeout(() => {
           this.router.navigate(['/login']);
-        }, 4000);
+        }, 10000);
       },
       error: (err) => {
         this.messageService.add({
@@ -68,6 +75,10 @@ export class Register {
         });
       }
     });
+  }
+
+  onAccountCreated() {
+    this.showDialog = true;
   }
 
 
