@@ -1,7 +1,7 @@
 <p-menubar [model]="items()">
 
   <ng-template pTemplate="end">
-    @if (!authService.loggedIn()) {
+    @if (!authStore.isAuthenticated()) {
       <p-button
         type="button"
         [label]="'Login'"
@@ -9,9 +9,8 @@
         (onClick)="login()">
       </p-button>
     }
-    @if (authService.loggedIn()) {
+    @if (authStore.isAuthenticated()) {
       <p-button
-        type="button"
         [label]="'Logout'"
         [icon]="'pi pi-sign-out'"
         (click)="logout()">

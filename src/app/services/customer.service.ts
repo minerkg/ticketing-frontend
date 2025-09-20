@@ -16,13 +16,13 @@ export class CustomerService {
   private readonly clientUrl = `${this.basePath}/${this.localVarPath}`;
 
 
-  constructor(private readonly httpClient: HttpClient, private readonly authService: AuthService) {
+  constructor(private readonly httpClient: HttpClient) {
   }
 
 
   public getAll(): Observable<Customer[]> {
     return this.httpClient
-      .get<ApiResponse<Customer[]>>(this.clientUrl, {headers: this.authService.getAuthHeaders()})
+      .get<ApiResponse<Customer[]>>(this.clientUrl)
       .pipe(
         map((response) => response.data ?? []),
         catchError((error) => {

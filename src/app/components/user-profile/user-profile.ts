@@ -8,7 +8,7 @@ import {UserService} from '../../services/user.service';
 import {ActivatedRoute} from '@angular/router';
 import {UserDetailUpdate} from '../../models/user-detail-update';
 import {MessageService} from 'primeng/api';
-import {AuthService} from '../../services/auth/auth-service';
+import {AuthStore} from '../../services/auth/auth-store';
 
 @Component({
   selector: 'app-user-profile',
@@ -29,7 +29,7 @@ export class UserProfile implements OnInit {
   constructor(private userService: UserService,
               private route: ActivatedRoute,
               private messageService: MessageService,
-              private authService: AuthService,) {
+              private authStore: AuthStore) {
   }
 
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class UserProfile implements OnInit {
       const userId = params.get('userId');
       if (!userId) return;
       this.userId = userId;
-      if (this.authService.loggedInUser()!.id === userId) {
+      if (this.authStore.loggedInUser()!.id === userId) {
         this.userService.findMyUsersDetail().subscribe(user => {
           this.user = user;
         });
@@ -78,9 +78,6 @@ export class UserProfile implements OnInit {
       }
     )
   }
-
-
-
 
 
   editMode = false;

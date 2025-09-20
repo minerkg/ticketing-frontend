@@ -1,50 +1,38 @@
-import {Component, OnInit, signal} from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { Card } from 'primeng/card';
+import { Message } from 'primeng/message';
+import { Divider } from 'primeng/divider';
+import { Button } from 'primeng/button';
 import {AuthService} from '../../services/auth/auth-service';
-import {MessageService} from 'primeng/api';
-import {Card} from 'primeng/card';
-import {Divider} from 'primeng/divider';
-import {Router, RouterLink} from '@angular/router';
-import {Button} from 'primeng/button';
-import {Message} from 'primeng/message';
 
 @Component({
   selector: 'app-logout',
-  imports: [
-    Card,
-    Divider,
-    RouterLink,
-    Message,
-    Button
-  ],
+  standalone: true,
+  imports: [Card, Message, Divider, Button, RouterLink],
   templateUrl: './logout.html',
-  styleUrl: './logout.css'
+  styleUrls: ['./logout.css'],
 })
-export class Logout implements OnInit {
+export class LogoutComponent implements OnInit {
+  countdown = signal(5);
 
-  protected countdown = signal(10);
-
-  constructor(private authService: AuthService, private messageService: MessageService, private router: Router) {
-  }
-
+  constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.authService.logout();
-    this.messageService.add({
-      severity: 'success',
-      summary: 'You logged out successfully',
-      detail: 'Goodbye!'
+    this.auth.logout().subscribe({
+      next: () => this.startCountdown(),
+      error: () => this.startCountdown(),
     });
+  }
 
+  private startCountdown() {
     const interval = setInterval(() => {
-      this.countdown.update(sec => sec - 1)
-      if (this.countdown() === 0) {
+      const value = this.countdown() - 1;
+      this.countdown.set(value);
+      if (value <= 0) {
         clearInterval(interval);
         this.router.navigate(['/']);
       }
     }, 1000);
-
-
   }
-
-
 }

@@ -3,8 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {catchError, map, Observable, throwError} from 'rxjs';
 import {ApiResponse} from '../models/api-response';
 import {environment} from '../../environments/environment';
-import {AuthService} from './auth/auth-service';
-import {TicketElement} from '../models/ticketElement';
+import {TicketElement} from '../models/ticket/ticketElement';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +14,12 @@ export class TicketElementService {
   private readonly basePath = environment.apiBasePath;
   private readonly ticketElementUrl = `${this.basePath}/${this.localVarPath}`;
 
-  constructor(private httpClient: HttpClient, private authService: AuthService) {
+  constructor(private httpClient: HttpClient) {
   }
 
   public getAllActive(): Observable<TicketElement[]> {
     return this.httpClient
-      .get<ApiResponse<TicketElement[]>>(this.ticketElementUrl, {headers: this.authService.getAuthHeaders()})
+      .get<ApiResponse<TicketElement[]>>(this.ticketElementUrl)
       .pipe(
         map((response) => response.data
           .filter(element => element.ticketElementStatus === TicketElement.TicketElementStatusEnum.Active) ?? []),

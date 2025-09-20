@@ -4,12 +4,12 @@ import {UserService} from '../../services/user.service';
 import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
 import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth/auth-service';
 import {Select} from 'primeng/select';
 import {FormsModule} from '@angular/forms';
 import {RoleUpdateRequest} from '../../models/role-update-request';
 import {MessageService} from 'primeng/api';
 import UserRoleEnum = User.UserRoleEnum;
+import {AuthStore} from '../../services/auth/auth-store';
 
 @Component({
   selector: 'app-user-list',
@@ -30,7 +30,7 @@ export class UserList implements OnInit {
 
   constructor(protected userService: UserService,
               private router: Router,
-              private authService: AuthService,
+              private authService: AuthStore,
               private messageService: MessageService) {
   }
 

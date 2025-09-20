@@ -1,24 +1,24 @@
 import {Component, Input, OnInit, signal} from '@angular/core';
-import {AuthService} from '../../../services/auth/auth-service';
 import {ActivatedRoute} from '@angular/router';
 import {TicketService} from '../../../services/ticket.service';
-import {Ticket} from '../../../models/ticket';
+import {Ticket} from '../../../models/ticket/ticket';
 import {Card} from 'primeng/card';
 import {Divider} from 'primeng/divider';
 import {MessageService} from 'primeng/api';
 import {DatePipe} from '@angular/common';
 import {Button, ButtonDirective} from 'primeng/button';
 import {FormsModule} from '@angular/forms';
-import {TicketComment} from '../../../models/ticketComment';
+import {TicketComment} from '../../../models/ticket/ticketComment';
 import {InputText} from 'primeng/inputtext';
 import {TicketActionsComponent} from '../ticket-actions/ticket-actions.component';
 import {CommentService} from '../../../services/comment.service';
 import {TicketingDateTimePipe} from '../../../shared/ticketing-date-time-pipe';
-import {TicketUpdateRequest} from '../../../models/ticketUpdateRequest';
+import {TicketUpdateRequest} from '../../../models/ticket/ticketUpdateRequest';
 import {Textarea} from 'primeng/textarea';
-import {TicketElement} from '../../../models/ticketElement';
+import {TicketElement} from '../../../models/ticket/ticketElement';
 import {TicketElementService} from '../../../services/ticket-element.service';
 import {Select} from 'primeng/select';
+import {AuthStore} from '../../../services/auth/auth-store';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -53,7 +53,7 @@ export class TicketDetail implements OnInit {
   constructor(
     private ticketService: TicketService,
     private route: ActivatedRoute,
-    private authService: AuthService,
+    private authStore: AuthStore,
     private messageService: MessageService,
     private commentService: CommentService,
     private ticketElementService: TicketElementService,
@@ -145,7 +145,7 @@ export class TicketDetail implements OnInit {
 
     const newComment: TicketComment = {
       ticketId: ticket.ticketId,
-      commenter: this.authService.loggedInUser(),
+      commenter: this.authStore.loggedInUser()!,
       commentedWhen: new Date().toISOString(),
       commentText: this.newCommentText
     };

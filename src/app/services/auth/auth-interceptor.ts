@@ -1,30 +1,65 @@
-import {HttpErrorResponse, HttpHandlerFn, HttpInterceptorFn, HttpRequest} from '@angular/common/http';
-import {inject} from '@angular/core';
+import { HttpInterceptorFn, HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { isExpired } from './token.utils';
+import { lastValueFrom, Subject, firstValueFrom } from 'rxjs';
+import { filter, take, catchError } from 'rxjs/operators';
 import {AuthService} from './auth-service';
-import {Router} from '@angular/router';
-import {catchError, EMPTY, throwError} from 'rxjs';
+import {AuthStore} from './auth-store';
 
-export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
-  const authService = inject(AuthService);
-  const headers = authService.getAuthHeaders();
-  const cloned = headers ? req.clone({headers}) : req;
-  return next(cloned);
-};
+let refreshInFlight$: Subject<boolean> | null = null;
 
-export const authRedirectInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
 
-  const headers = authService.getAuthHeaders();
-  const clonedReq = headers ? req.clone({headers}) : req;
 
-  return next(clonedReq).pipe(
-    catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
-        router.navigate(['/login']);
-        return EMPTY;
+function addAuthHeader(req: HttpRequest<any>, token: string) {
+  return req.clone({ setHeaders: { Authorization: `Bearer ${token}` }, withCredentials: true });
+}
+
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const authStore = inject(AuthStore);
+  const token = authStore.accessToken();
+  const authedReq = token && !isExpired(token) ? addAuthHeader(req, token) : req;
+
+  return next(authedReq).pipe(
+    catchError(async (err) => {
+      if (!(err instanceof HttpErrorResponse) || err.status !== 401) throw err;
+
+      const url = req.url ?? '';
+      if (url.includes('/user/login') || url.includes('/user/refresh') || url.includes('/user/logout')) {
+        authStore.clear();
+        throw err;
       }
-      return throwError(() => error);
+
+      if (!authStore.accessToken()) {
+        authStore.clear();
+        throw err;
+      }
+
+      if (!refreshInFlight$) {
+        refreshInFlight$ = new Subject<boolean>();
+        authStore.setRefreshing(true);
+        try {
+          await lastValueFrom(inject(AuthService).refresh());
+          refreshInFlight$!.next(true);
+        } catch {
+          refreshInFlight$!.next(false);
+          authStore.clear();
+          throw err;
+        } finally {
+          refreshInFlight$!.complete();
+          refreshInFlight$ = null;
+          authStore.setRefreshing(false);
+        }
+      } else {
+        const ok = await firstValueFrom(refreshInFlight$.pipe(filter(Boolean), take(1))).catch(() => false);
+        if (!ok) {
+          authStore.clear();
+          throw err;
+        }
+      }
+
+      const newToken = authStore.accessToken();
+      const retried = newToken ? addAuthHeader(req, newToken) : req;
+      return await lastValueFrom(next(retried));
     })
   );
 };
