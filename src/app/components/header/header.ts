@@ -2,8 +2,10 @@ import {Component, computed} from '@angular/core';
 import {Menubar} from 'primeng/menubar';
 import {Button} from 'primeng/button';
 import {MenuItem, PrimeTemplate} from 'primeng/api';
-import {AuthService} from '../../services/auth/auth-service';
 import {Router} from '@angular/router';
+import {AuthStore} from '../../services/auth/auth-store';
+import {User} from '../../models/user';
+import UserRoleEnum = User.UserRoleEnum;
 
 @Component({
   selector: 'app-header',
@@ -18,7 +20,7 @@ import {Router} from '@angular/router';
 export class Header {
 
 
-  constructor(protected readonly authService: AuthService, private router: Router) {
+  constructor(protected readonly authStore: AuthStore, private router: Router) {
   }
 
 
@@ -28,7 +30,7 @@ export class Header {
 
     ];
 
-    if (this.authService.loggedInUser()) {
+    if (this.authStore.loggedInUser()) {
       baseItems.push({
         label: 'Create Ticket',
         icon: 'pi pi-file', routerLink: ['/create-ticket']
@@ -36,7 +38,7 @@ export class Header {
       baseItems.push({
         label: 'My profile',
         icon: 'pi pi-users', routerLink: ['/user-profile',
-          this.authService.loggedInUser()?.id]
+          this.authStore.loggedInUser()?.id]
       });
       baseItems.push({
         label: 'My assigned tickets',
@@ -55,7 +57,7 @@ export class Header {
       })
     }
 
-    if (this.authService.loggedInUserIsAdmin()) {
+    if (this.authStore.loggedInUserRole() === UserRoleEnum.Admin) {
       baseItems.push({label: 'All users', icon: 'pi pi-users', routerLink: '/user-list'});
     }
     return baseItems;
@@ -69,7 +71,10 @@ export class Header {
 
   logout() {
     this.router.navigate(['/logout']);
+  }
 
+  register() {
+    this.router.navigate(['/register']);
   }
 
 }

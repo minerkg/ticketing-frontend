@@ -1,4 +1,4 @@
-import {Ticket} from './ticket';
+import {Ticket} from './ticket/ticket';
 
 
 export interface Customer {

@@ -9,15 +9,28 @@
       Your session has ended successfully. You can safely close this tab or sign in again.
     </p>
 
-    <p-message severity="success" text="Logout completed successfully."></p-message>
-    <p-message severity="success" text="Redirecting in {{ countdown() }} seconds to home page..."></p-message>
+    <p-message severity="success">
+      Logout completed successfully.
+    </p-message>
+    <p-message
+      severity="success">
+      Redirecting in {{ this.countdown() }} seconds to home page...
+    </p-message>
 
     <p-divider></p-divider>
 
     <div class="actions">
-      <p-button routerLink="/login" label="Log in" icon="pi pi-sign-in"></p-button>
-      <p-button routerLink="/" label="Home" icon="pi pi-home" class="p-button-secondary"></p-button>
+      <p-button
+        routerLink="/login"
+        label="Log in"
+        icon="pi pi-sign-in"
+      ></p-button>
+      <p-button
+        routerLink="/"
+        label="Home"
+        icon="pi pi-home"
+        class="p-button-secondary"
+      ></p-button>
     </div>
   </p-card>
 </div>
-

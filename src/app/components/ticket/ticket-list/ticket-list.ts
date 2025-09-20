@@ -1,15 +1,14 @@
 import {Component, OnInit, signal} from '@angular/core';
-import {Ticket} from '../../../models/ticket';
+import {Ticket} from '../../../models/ticket/ticket';
 import {TicketService} from '../../../services/ticket.service';
 import {TableModule} from 'primeng/table';
-import {DatePipe} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {ProgressBar} from 'primeng/progressbar';
 import {TicketFilter, TicketFilters} from './filters';
-import {AuthService} from '../../../services/auth/auth-service';
 import {TicketActionsComponent} from '../ticket-actions/ticket-actions.component';
 import {TicketingDateTimePipe} from '../../../shared/ticketing-date-time-pipe';
+import {AuthStore} from '../../../services/auth/auth-store';
 
 
 @Component({
@@ -35,7 +34,7 @@ export class TicketList implements OnInit {
   constructor(private ticketService: TicketService,
               private messageService: MessageService,
               private route: ActivatedRoute,
-              private authService: AuthService) {
+              private authStore: AuthStore,) {
   }
 
   ngOnInit() {
@@ -48,7 +47,7 @@ export class TicketList implements OnInit {
         this.route.data.subscribe(data => {
           const routeFilter = data['filter'];
           if (typeof routeFilter === 'function') {
-            const userId = this.authService.loggedInUser()?.id;
+            const userId = this.authStore.loggedInUser()?.id;
             this.filter = userId ? routeFilter(userId) : TicketFilters.ALL;
           } else {
             this.filter = routeFilter ?? TicketFilters.ALL;

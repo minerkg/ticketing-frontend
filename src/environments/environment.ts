@@ -1,6 +1,6 @@
 import {TicketOperation} from '../app/components/ticket/ticket-list/ticket-operations';
 import {User} from '../app/models/user';
-import {Ticket} from '../app/models/ticket';
+import {Ticket} from '../app/models/ticket/ticket';
 import UserRoleEnum = User.UserRoleEnum;
 import TicketStatusEnum = Ticket.TicketStatusEnum;
 

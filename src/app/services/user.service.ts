@@ -25,7 +25,7 @@ export class UserService {
   getAllUsers() {
     const usersUrl = `${this.ticketingUserUrl}/all-users`;
     return this.httpClient
-      .get<ApiResponse<User[]>>(usersUrl, {headers: this.authService.getAuthHeaders()})
+      .get<ApiResponse<User[]>>(usersUrl)
       .pipe(
         map((response) => response.data ?? []),
         catchError((error) => {
@@ -44,7 +44,7 @@ export class UserService {
   findMyUsersDetail() {
     const usersUrl = `${this.ticketingUserUrl}/me`;
     return this.httpClient
-      .get<ApiResponse<User>>(usersUrl, {headers: this.authService.getAuthHeaders()})
+      .get<ApiResponse<User>>(usersUrl)
       .pipe(
         map((response) => response.data ?? undefined),
         catchError((error) => {

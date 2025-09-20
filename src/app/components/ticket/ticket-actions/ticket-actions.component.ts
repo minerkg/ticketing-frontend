@@ -2,13 +2,13 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, signal} from 
 import {iconMap, labelMap, TicketOperation} from '../ticket-list/ticket-operations';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TicketService} from '../../../services/ticket.service';
-import {Ticket} from '../../../models/ticket';
+import {Ticket} from '../../../models/ticket/ticket';
 import {Button} from 'primeng/button';
-import {AuthService} from "../../../services/auth/auth-service";
 import {SelectUserModal} from "../../select-user-modal/select-user-modal";
 import {MessageService} from "primeng/api";
 import {User} from '../../../models/user';
 import {TicketPermissionsMatrix} from '../../../../environments/environment';
+import {AuthStore} from '../../../services/auth/auth-store';
 import UserRoleEnum = User.UserRoleEnum;
 
 @Component({
@@ -20,7 +20,7 @@ import UserRoleEnum = User.UserRoleEnum;
   templateUrl: './ticket-actions.component.html',
   styleUrl: './ticket-actions.component.css'
 })
-export class TicketActionsComponent implements OnInit , OnChanges {
+export class TicketActionsComponent implements OnInit, OnChanges {
 
   ticketOperationList = signal<TicketOperation[]>([]);
   @Input() selectedTicket!: Ticket;
@@ -37,7 +37,7 @@ export class TicketActionsComponent implements OnInit , OnChanges {
 
   constructor(private ticketService: TicketService,
               private router: Router,
-              private authService: AuthService,
+              private authStore: AuthStore,
               private activatedRoute: ActivatedRoute,
               private messageService: MessageService
   ) {
@@ -52,7 +52,7 @@ export class TicketActionsComponent implements OnInit , OnChanges {
       this.isTicketDetailPage = urlSegments.some(segment => segment.path === 'ticket-detail');
     });
 
-    const userRole = this.authService.loggedInUserRole();
+    const userRole = this.authStore.loggedInUserRole();
     const status = this.selectedTicket.ticketStatus;
 
     const allowedOps = TicketPermissionsMatrix[userRole!]?.[status!] ?? [];
@@ -69,7 +69,7 @@ export class TicketActionsComponent implements OnInit , OnChanges {
     }
 
     if (userRole === UserRoleEnum.User) {
-      const loggedInUser = this.authService.loggedInUser();
+      const loggedInUser = this.authStore.loggedInUser();
       if (
         this.selectedTicket.assignedTo &&
         this.selectedTicket.assignedTo.id !== loggedInUser!.id

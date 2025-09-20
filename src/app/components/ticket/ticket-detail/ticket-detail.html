@@ -3,7 +3,7 @@
     <div class="ticket-detail-wrap">
       <p-card class="ticket-card">
         <h2>Ticket #{{ ticket.ticketId }} - {{ ticket.ticketType }}</h2>
-        <p>Customer: {{ ticket.customer?.firstName + " " + ticket.customer?.lastName }}</p>
+        <p>Customer: {{ ticket.customer.firstName + " " + ticket.customer.lastName }}</p>
         <p>Status: {{ ticket.ticketStatus }}</p>
         <p>Created: {{ ticket.createdWhen | ticketingDateTime:true }}</p>
         <p>Created by: {{ ticket.createdBy?.username }}</p>

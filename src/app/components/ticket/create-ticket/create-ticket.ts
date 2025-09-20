@@ -1,7 +1,7 @@
 import {Component, OnInit, signal} from '@angular/core';
 import {Dialog} from 'primeng/dialog';
 import {Button} from 'primeng/button';
-import {TicketCreationRequest} from '../../../models/ticketCreationRequest';
+import {TicketCreationRequest} from '../../../models/ticket/ticketCreationRequest';
 import {Customer} from '../../../models/customer';
 import {Textarea} from 'primeng/textarea';
 import {FormsModule} from '@angular/forms';
@@ -11,7 +11,7 @@ import {TicketService} from '../../../services/ticket.service';
 import {Router} from '@angular/router';
 import {TicketElementService} from '../../../services/ticket-element.service';
 import {CustomerService} from '../../../services/customer.service';
-import {Ticket} from '../../../models/ticket';
+import {Ticket} from '../../../models/ticket/ticket';
 
 
 @Component({

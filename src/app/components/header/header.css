@@ -1,0 +1,12 @@
+.menu-buttons {
+  display: flex;
+  gap: 0.75rem; /* space between buttons */
+  align-items: center;
+}
+
+.menu-buttons .p-button {
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+}

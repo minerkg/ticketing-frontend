@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {TicketComment} from '../models/ticketComment';
+import {TicketComment} from '../models/ticket/ticketComment';
 import {catchError, map, Observable, throwError} from 'rxjs';
-import {Ticket} from '../models/ticket';
+import {Ticket} from '../models/ticket/ticket';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from './auth/auth-service';

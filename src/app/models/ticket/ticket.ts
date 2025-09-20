@@ -1,8 +1,8 @@
-import {User} from './user';
+import {User} from '../user';
 import {TicketElement} from './ticketElement';
 import {SolutionType} from './solutionType';
 import {TicketComment} from './ticketComment';
-import {Customer} from './customer';
+import {Customer} from '../customer';
 
 
 export interface Ticket {

@@ -1,15 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, map, Observable, throwError} from 'rxjs';
-import {Ticket} from '../models/ticket';
-import {TicketCreationRequest} from '../models/ticketCreationRequest';
+import {Ticket} from '../models/ticket/ticket';
+import {TicketCreationRequest} from '../models/ticket/ticketCreationRequest';
 import {environment} from '../../environments/environment';
 import {ApiResponse} from '../models/api-response';
-import {AuthService} from './auth/auth-service';
-import {TicketComment} from '../models/ticketComment';
 import {User} from '../models/user';
-import {TicketCloseRequest} from '../models/ticketCloseRequest';
-import {TicketUpdateRequest} from '../models/ticketUpdateRequest';
+import {TicketCloseRequest} from '../models/ticket/ticketCloseRequest';
+import {TicketUpdateRequest} from '../models/ticket/ticketUpdateRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +18,7 @@ export class TicketService {
   private readonly basePath = environment.apiBasePath;
   private readonly complaintTicketUrl = `${this.basePath}/${this.localVarPath}`;
 
-  constructor(protected httpClient: HttpClient, private readonly authService: AuthService) {
+  constructor(protected httpClient: HttpClient) {
   }
 
 
@@ -42,7 +40,7 @@ export class TicketService {
 
   public getAllTickets(): Observable<Ticket[]> {
     return this.httpClient
-      .get<ApiResponse<Ticket[]>>(this.complaintTicketUrl, {headers: this.authService.getAuthHeaders()})
+      .get<ApiResponse<Ticket[]>>(this.complaintTicketUrl)
       .pipe(
         map((response) => response.data ?? []),
         catchError((error) => {
@@ -109,7 +107,7 @@ export class TicketService {
   public getCurrentUserAssignedTickets(): Observable<Ticket[]> {
     const complaintTicketUrl = `${this.complaintTicketUrl}/my-assigned-tickets`;
     return this.httpClient
-      .get<ApiResponse<Ticket[]>>(complaintTicketUrl, {headers: this.authService.getAuthHeaders()})
+      .get<ApiResponse<Ticket[]>>(complaintTicketUrl)
       .pipe(
         map((response) => response.data ?? []),
         catchError((error) => {
