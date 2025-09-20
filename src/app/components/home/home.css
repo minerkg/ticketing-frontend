@@ -1,0 +1,59 @@
+
+.home-wrapper {
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+/* Title and Subtitle */
+.home-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.home-subtitle {
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Card Grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* Feature Cards */
+.feature-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+  text-align: center;
+
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Card Titles */
+.feature-card h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #34d399;
+  margin: 0;
+  padding-bottom: 0.5rem;
+}
+
+/* Card Text */
+.feature-card p {
+  font-size: 0.95rem;
+
+  line-height: 1.5;
+  margin: 0;
+}
