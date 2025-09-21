@@ -59,6 +59,7 @@ export class Header {
 
     if (this.authStore.loggedInUserRole() === UserRoleEnum.Admin) {
       baseItems.push({label: 'All users', icon: 'pi pi-users', routerLink: '/user-list'});
+      baseItems.push({label: 'Manage types', icon: 'pi pi-boy', routerLink: '/manage-ticket-types'})
     }
     return baseItems;
   });

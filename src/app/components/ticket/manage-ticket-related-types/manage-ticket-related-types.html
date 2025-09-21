@@ -1,0 +1,66 @@
+<div class="manage-wrapper">
+  <h2>Manage Solution Types</h2>
+  <div class="add-form">
+    <input pInputText [(ngModel)]="newSolutionName" placeholder="New solution type" />
+    <p-button label="Add" icon="pi pi-plus" (click)="addSolutionType()"></p-button>
+  </div>
+
+  <p-table [value]="solutionTypes" [loading]="loadingSolutions">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-sol>
+      <tr>
+        <td>{{ sol.name }}</td>
+        <td>{{ sol.solutionTypeStatus }}</td>
+        <td>
+          <p-toggleButton
+            [onLabel]="'Active'"
+            [offLabel]="'Inactive'"
+            [onIcon]="'pi pi-check'"
+            [offIcon]="'pi pi-times'"
+            [(ngModel)]="sol.solutionTypeStatus"
+            (onChange)="toggleSolutionType(sol)">
+          </p-toggleButton>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <h2 class="mt-4">Manage Ticket Elements</h2>
+  <div class="add-form">
+    <input pInputText [(ngModel)]="newElementName" placeholder="New ticket element" />
+    <p-button label="Add" icon="pi pi-plus" (click)="addTicketElement()"></p-button>
+  </div>
+
+  <p-table [value]="ticketElements" [loading]="loadingElements">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-elem>
+      <tr>
+        <td>{{ elem.name }}</td>
+        <td>{{ elem.ticketElementStatus }}</td>
+        <td>
+          <p-toggle-button
+            [onLabel]="'Active'"
+            [offLabel]="'Inactive'"
+            [onIcon]="'pi pi-check'"
+            [offIcon]="'pi pi-times'"
+            [(ngModel)]="elem._statusBoolean"
+            (onChange)="toggleTicketElement(elem)">
+          </p-toggle-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
