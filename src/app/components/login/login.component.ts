@@ -16,6 +16,7 @@ import {AuthStore} from '../../services/auth/auth-store';
     FormsModule,
     FloatLabel,
     InputText,
+    RouterLink,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],

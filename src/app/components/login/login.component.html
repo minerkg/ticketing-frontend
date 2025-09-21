@@ -27,11 +27,24 @@
         <label for="password">Password</label>
       </p-float-label>
 
-      <p-button
-        type="submit"
-        label="{{ loading() ? 'Signing in...' : 'Login' }}"
-        [disabled]="loading() || loginForm.invalid"
-      ></p-button>
+
+      <div class="buttons">
+        <p-button
+          type="submit"
+          label="{{ loading() ? 'Signing in...' : 'Login' }}"
+          [disabled]="loading() || loginForm.invalid"
+          styleClass="p-button-primary"
+        ></p-button>
+
+        <p-button
+          label="Reset Password"
+          icon="pi pi-key"
+          [routerLink]="['/change-password']"
+          styleClass="p-button-secondary reset-btn"
+        ></p-button>
+      </div>
+
+
     </form>
   </div>
 </div>
