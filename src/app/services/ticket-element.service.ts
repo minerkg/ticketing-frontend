@@ -30,4 +30,48 @@ export class TicketElementService {
       );
   }
 
+  public getAll(): Observable<TicketElement[]> {
+    return this.httpClient
+      .get<ApiResponse<TicketElement[]>>(this.ticketElementUrl)
+      .pipe(
+        map((response) => response.data),
+        catchError((error) => {
+          console.error('Failed to load ticket elements', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+
+  public create(elementName: string): Observable<TicketElement> {
+    return this.httpClient
+      .post<ApiResponse<TicketElement>>(this.ticketElementUrl, null, {
+        params: { elementName }
+      })
+      .pipe(
+        map((resp) => resp.data),
+        catchError((error) => {
+          console.error('Failed to create ticket element', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  public toggle(
+    id: number,
+    action: 'deactivate' | 'reactivate'
+  ): Observable<TicketElement> {
+    return this.httpClient
+      .put<ApiResponse<TicketElement>>(`${this.ticketElementUrl}/${action}`, null, {
+        params: { id }
+      })
+      .pipe(
+        map((resp) => resp.data),
+        catchError((error) => {
+          console.error(`Failed to ${action} ticket element`, error);
+          return throwError(() => error);
+        })
+      );
+  }
+
 }

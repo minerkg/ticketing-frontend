@@ -4,6 +4,7 @@
       <th>Username</th>
       <th>Role</th>
       <th>Email</th>
+      <th>Enabled</th>
       <th>Actions</th>
     </tr>
   </ng-template>
@@ -13,6 +14,18 @@
       <td>{{ user.username }}</td>
       <td>{{ user.userRole }}</td>
       <td>{{ user.email }}</td>
+      <td>
+        @if (loggedInUserRole === UserRoleEnum.Admin) {
+          <p-toggle-switch
+            [(ngModel)]="user.accountEnabled"
+            (onChange)="toggleUserAccount(user)">
+          </p-toggle-switch>
+        } @else {
+          <span>{{ user.accountEnabled ? 'Enabled' : 'Disabled' }}</span>
+        }
+      </td>
+
+
       <td>
         <div class="actions mb-3">
           <p-button

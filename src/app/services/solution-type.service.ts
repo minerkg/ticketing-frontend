@@ -30,4 +30,49 @@ export class SolutionTypeService {
       );
   }
 
+  public getAll(): Observable<SolutionType[]> {
+    return this.httpClient
+      .get<ApiResponse<SolutionType[]>>(this.solutionTypeUrl)
+      .pipe(
+        map((response) => response.data),
+        catchError((error) => {
+          console.error('Failed to load solutions types', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  public create(solutionName: string): Observable<SolutionType> {
+    return this.httpClient
+      .post<ApiResponse<SolutionType>>(this.solutionTypeUrl, null, {
+        params: {solutionName}
+      })
+      .pipe(
+        map((resp) => resp.data),
+        catchError((error) => {
+          console.error('Failed to create solution type', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+
+  public toggle(
+    id: number,
+    action: 'deactivate' | 'reactivate'
+  ): Observable<SolutionType> {
+    return this.httpClient
+      .put<ApiResponse<SolutionType>>(`${this.solutionTypeUrl}/${action}`, null, {
+        params: {id}
+      })
+      .pipe(
+        map((resp) => resp.data),
+        catchError((error) => {
+          console.error(`Failed to ${action} solution type`, error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+
 }

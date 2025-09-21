@@ -108,4 +108,18 @@ export class UserService {
   }
 
 
+
+  toggleAccount(userId: string, accountEnabled: boolean) {
+    const url = accountEnabled
+      ? `${this.ticketingUserUrl}/enable`
+      : `${this.ticketingUserUrl}/disable`;
+    return this.httpClient.put<void>(url, JSON.stringify(userId),
+      { headers: { 'Content-Type': 'application/json' } }).pipe(
+      catchError(error => {
+        console.error('Failed to change users account status', error);
+        return throwError(() => error);
+      })
+    )
+  }
+
 }

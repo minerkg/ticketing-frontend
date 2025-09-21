@@ -15,6 +15,8 @@ import { authGuard } from './services/auth/auth-guard';
 import {Home} from './components/home/home';
 import {ChangePassword} from './components/change-password/change-password';
 
+import {ManageTicketRelatedTypes} from './components/ticket/manage-ticket-related-types/manage-ticket-related-types';
+
 export const routes: Routes = [
   // Public routes
   { path: 'login', component: LoginComponent },
@@ -36,6 +38,9 @@ export const routes: Routes = [
   { path: 'create-ticket', component: CreateTicket, canActivate: [authGuard] },
   { path: 'all-customers', component: CustomerList, canActivate: [authGuard] },
   { path: 'close-ticket/:ticketId', component: CloseTicket, canActivate: [authGuard] },
+  { path: 'manage-ticket-types', component: ManageTicketRelatedTypes, canActivate: [authGuard] },
+
+
 
   // Redirects
   { path: '', redirectTo: 'home', pathMatch: 'full' },
