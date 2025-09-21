@@ -5,6 +5,9 @@ import {environment} from '../../../environments/environment';
 import {LoginRequest, LoginResponse, RefreshResponse} from '../../models/auth/auth.models';
 import {User} from '../../models/user';
 import {AuthStore} from './auth-store';
+import {ApiResponse} from '../../models/api-response';
+import {PasswordChangeRequest} from '../../models/passwordChangeRequest';
+import {catchError, map, Observable, throwError} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -40,4 +43,6 @@ export class AuthService {
     return this.http.post<void>(`${this.authPath}/logout`, {}, {withCredentials: true})
       .pipe(tap(() => this.authStore.clear()));
   }
+
+
 }

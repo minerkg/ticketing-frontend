@@ -2,12 +2,12 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ApiResponse} from '../models/api-response';
 import {User} from '../models/user';
-import {catchError, map, of, throwError} from 'rxjs';
+import {catchError, map, Observable, of, throwError} from 'rxjs';
 import {environment} from '../../environments/environment';
-import {AuthService} from './auth/auth-service';
 import {UserRegistrationRequest} from '../models/userRegistrationRequest';
 import {UserDetailUpdate} from '../models/user-detail-update';
 import {RoleUpdateRequest} from '../models/role-update-request';
+import {PasswordChangeRequest} from '../models/passwordChangeRequest';
 
 
 @Injectable({
@@ -19,7 +19,7 @@ export class UserService {
   protected readonly basePath = environment.apiBasePath;
   private readonly ticketingUserUrl = `${this.basePath}/${this.localVarPath}`;
 
-  constructor(private httpClient: HttpClient, private authService: AuthService) {
+  constructor(private httpClient: HttpClient) {
   }
 
   getAllUsers() {
@@ -94,9 +94,18 @@ export class UserService {
       );
   }
 
-
-
-
+  changePassword(request: PasswordChangeRequest): Observable<string> {
+    return this.httpClient.put<ApiResponse<string>>(
+      `${this.ticketingUserUrl}/change-password`,
+      request
+    ).pipe(
+      map(response => response.data),
+      catchError(error => {
+        console.error('Failed to change users password', error);
+        return throwError(() => error);
+      })
+    );
+  }
 
 
 }

@@ -13,16 +13,20 @@ import {LoginComponent} from './components/login/login.component';
 import {LogoutComponent} from './components/logout/logout';
 import { authGuard } from './services/auth/auth-guard';
 import {Home} from './components/home/home';
+import {ChangePassword} from './components/change-password/change-password';
 
 export const routes: Routes = [
   // Public routes
   { path: 'login', component: LoginComponent },
   { path: 'register', component: Register },
   { path: 'home', component: Home },
+  { path: 'change-password',  component: ChangePassword },
 
   // Protected routes
   { path: 'dashboard', component: Dashboard, canActivate: [authGuard] },
   { path: 'user-profile/:userId', component: UserProfile, canActivate: [authGuard] },
+
+
   { path: 'logout', component: LogoutComponent, canActivate: [authGuard] },
 
   { path: 'my-assigned-tickets', component: TicketList, canActivate: [authGuard], data: { filter: TicketFilters.MY_ASSIGNED } },

@@ -62,3 +62,13 @@ form {
     transform: translateY(0);
   }
 }
+
+.buttons {
+  display: flex;
+  justify-content: center;   /* Center horizontally */
+  gap: 1rem;                 /* Space between buttons */
+  margin-top: 1.5rem;
+}
+
+
+
