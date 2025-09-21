@@ -10,6 +10,7 @@ import {RoleUpdateRequest} from '../../models/role-update-request';
 import {MessageService} from 'primeng/api';
 import UserRoleEnum = User.UserRoleEnum;
 import {AuthStore} from '../../services/auth/auth-store';
+import {ToggleSwitch} from 'primeng/toggleswitch';
 
 @Component({
   selector: 'app-user-list',
@@ -17,7 +18,8 @@ import {AuthStore} from '../../services/auth/auth-store';
     TableModule,
     Button,
     Select,
-    FormsModule
+    FormsModule,
+    ToggleSwitch
   ],
   templateUrl: './user-list.html',
   styleUrl: './user-list.css'
@@ -74,6 +76,28 @@ export class UserList implements OnInit {
     )
 
   }
+
+  toggleUserAccount(user: User) {
+    this.userService.toggleAccount(user.id, user.accountEnabled!).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: `User ${user.username} has been ${user.accountEnabled ? 'enabled' : 'disabled'}.`
+        });
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: `Failed to update ${user.username}'s account status.`
+        });
+        user.accountEnabled = !user.accountEnabled;
+      }
+    });
+  }
+
+
 
 
   protected readonly UserRoleEnum = UserRoleEnum;

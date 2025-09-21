@@ -61,12 +61,12 @@ export class LoginComponent implements OnInit {
           detail: `Welcome back!`,
         });
       },
-      error: () => {
+      error: (err) => {
         this.loading.set(false);
         this.messageService.add({
           severity: 'error',
           summary: 'Login failed',
-          detail: 'Invalid username or password.',
+          detail: `Invalid username, password or account disabled!`,
         });
       },
     });

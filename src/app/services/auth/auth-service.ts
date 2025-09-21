@@ -24,7 +24,12 @@ export class AuthService {
       .pipe(tap(({accessToken, user}) => {
         this.authStore.setAccessToken(accessToken);
         this.authStore.setUser(user);
-      }));
+      }),
+        catchError(error => {
+          console.error('Failed to login', error);
+          return throwError(() => error);
+        })
+      );
   }
 
   refresh() {
