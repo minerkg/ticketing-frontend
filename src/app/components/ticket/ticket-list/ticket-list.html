@@ -36,12 +36,15 @@
 <p-table [value]="tickets()"
          [paginator]="true"
          [rows]="pageSize"
+         [first]="page * pageSize"
+         [rowsPerPageOptions]="[10,20,50]"
          [totalRecords]="totalRecords()"
          [lazy]="true"
          (onPage)="onPageChange($event)"
          [loading]="loading()"
          [sortMode]="'single'"
          [resizableColumns]="true">
+
 
   <ng-template pTemplate="header">
     <tr>
@@ -96,5 +99,5 @@
       </td>
     </tr>
   </ng-template>
-
 </p-table>
+

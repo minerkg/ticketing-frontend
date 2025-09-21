@@ -89,8 +89,10 @@ export class TicketList implements OnInit {
 
   private loadTickets() {
     this.loading.set(true);
+    console.log(this.page)
     this.ticketService.getAllTicketsFilteredAndPaged(
       this.page,
+      this.pageSize,
       this.keyword,
       this.sortBy,
       this.direction,
@@ -99,14 +101,16 @@ export class TicketList implements OnInit {
     ).subscribe({
       next: (data: Page<Ticket>) => {
         this.tickets.set(data.content);
-        this.totalRecords.set(data.totalElements);
+        this.totalRecords.set(data.page.totalElements);
+        this.page = data.page.number;
+        this.pageSize = data.page.size;
         this.loading.set(false);
       },
       error: (error) => {
         this.messageService.add({
           severity: 'error',
           summary: 'Fetching tickets failed',
-          detail: `${error} could not fetch tickets`
+          detail: `${error.err} could not fetch tickets`
         });
         this.loading.set(false);
       }
@@ -114,14 +118,8 @@ export class TicketList implements OnInit {
   }
 
   onPageChange(event: any) {
-    this.page = event.page;
+    this.page = event.first / event.rows;
     this.pageSize = event.rows;
-    this.loadTickets();
-  }
-
-  onSortChange(event: any) {
-    this.sortBy = event.field;
-    this.direction = event.order === 1 ? 'asc' : 'desc';
     this.loadTickets();
   }
 
@@ -150,5 +148,6 @@ export class TicketList implements OnInit {
       )
     );
   }
+
 
 }

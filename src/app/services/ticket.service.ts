@@ -52,11 +52,12 @@ export class TicketService {
   }
 
   getAllTicketsFilteredAndPaged(
-    page: number = 0, keyword: string = '', sortBy: string = 'createdWhen', direction: string = 'desc',
+    page: number = 0, size: number = 10,   keyword: string = '', sortBy: string = 'createdWhen', direction: string = 'desc',
     status: string = '',
     assignedTo: string = ''): Observable<Page<Ticket>> {
     const params = new HttpParams()
-      .set('page', page)
+      .set('page',  page.toString())
+      .set('size', size.toString())
       .set('keyword', keyword || '')
       .set('sortBy', sortBy)
       .set('direction', direction)
