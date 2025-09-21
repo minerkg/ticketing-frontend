@@ -1,0 +1,15 @@
+.ticket-toolbar {
+  margin-bottom: 1rem;
+  margin: 2rem;
+}
+
+.ticket-toolbar .p-toolbar-group-left,
+.ticket-toolbar .p-toolbar-group-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ticket-toolbar .sort-label {
+  font-weight: 500;
+}

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {catchError, map, Observable, throwError} from 'rxjs';
 import {Ticket} from '../models/ticket/ticket';
 import {TicketCreationRequest} from '../models/ticket/ticketCreationRequest';
@@ -8,6 +8,7 @@ import {ApiResponse} from '../models/api-response';
 import {User} from '../models/user';
 import {TicketCloseRequest} from '../models/ticket/ticketCloseRequest';
 import {TicketUpdateRequest} from '../models/ticket/ticketUpdateRequest';
+import {Page} from '../models/ticket/page';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,30 @@ export class TicketService {
         })
       );
   }
+
+  getAllTicketsFilteredAndPaged(
+    page: number = 0, keyword: string = '', sortBy: string = 'createdWhen', direction: string = 'desc',
+    status: string = '',
+    assignedTo: string = ''): Observable<Page<Ticket>> {
+    const params = new HttpParams()
+      .set('page', page)
+      .set('keyword', keyword || '')
+      .set('sortBy', sortBy)
+      .set('direction', direction)
+      .set('status', status)
+      .set('assignedTo', assignedTo);
+
+    return this.httpClient
+      .get<ApiResponse<Page<Ticket>>>(`${this.complaintTicketUrl}/filtered-pages`, {params})
+      .pipe(
+        map((response) => response.data),
+        catchError((error) => {
+          console.error('Failed to load paged tickets', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
 
   public assignTicket(ticketId: number, assignToUser: User): Observable<Ticket> {
     const url = `${this.basePath}/${(this.localVarPath)}/assign/${ticketId}`;
