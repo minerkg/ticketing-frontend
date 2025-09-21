@@ -1,14 +1,69 @@
-<p-table [value]="filteredTicketList()">
+<p-toolbar class="ticket-toolbar">
+  <div class="p-toolbar-group-left">
+    <p-iconfield iconPosition="left">
+      <p-inputicon class="pi pi-search"/>
+      <input type="text"
+             pInputText
+             placeholder="Search tickets..."
+             [(ngModel)]="keyword"
+             (keyup.enter)="onSearch()"/>
+    </p-iconfield>
+
+    <p-button
+      type="button"
+      label="Search"
+      icon="pi pi-search"
+      (click)="onSearch()">
+    </p-button>
+  </div>
+
+  <div class="p-toolbar-group-right">
+    <span class="sort-label">Sort by:</span>
+    <select [(ngModel)]="sortBy" (change)="onSearch()" class="p-inputtext">
+      <option value="createdWhen">Created Date</option>
+      <option value="ticketStatus">Status</option>
+      <option value="ticketType">Type</option>
+    </select>
+
+    <select [(ngModel)]="direction" (change)="onSearch()" class="p-inputtext">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+  </div>
+</p-toolbar>
+
+
+<p-table [value]="tickets()"
+         [paginator]="true"
+         [rows]="pageSize"
+         [first]="page * pageSize"
+         [rowsPerPageOptions]="[10,20,50]"
+         [totalRecords]="totalRecords()"
+         [lazy]="true"
+         (onPage)="onPageChange($event)"
+         [loading]="loading()"
+         [sortMode]="'single'"
+         [resizableColumns]="true">
+
+
   <ng-template pTemplate="header">
     <tr>
-      <th>ID</th>
-      <th>Type</th>
-      <th>Status</th>
+      <th pSortableColumn="ticketId">ID
+        <p-sortIcon field="ticketId"></p-sortIcon>
+      </th>
+      <th pSortableColumn="ticketType">Type
+        <p-sortIcon field="ticketType"></p-sortIcon>
+      </th>
+      <th pSortableColumn="ticketStatus">Status
+        <p-sortIcon field="ticketStatus"></p-sortIcon>
+      </th>
       <th>Created By</th>
-      <th>Created When</th>
+      <th pSortableColumn="createdWhen">Created When
+        <p-sortIcon field="createdWhen"></p-sortIcon>
+      </th>
       <th>Assigned To</th>
       <th>Description</th>
-      <th>RemainingSLA</th>
+      <th>Remaining SLA</th>
       <th>Actions</th>
     </tr>
   </ng-template>
@@ -18,29 +73,31 @@
       <td>{{ ticket.ticketId }}</td>
       <td>{{ ticket.ticketType }}</td>
       <td>{{ ticket.ticketStatus }}</td>
-      <td>{{ ticket.createdBy?.username }}</td>
+      <td>{{ ticket.createdBy?.username || '—' }}</td>
       <td>{{ ticket.createdWhen | ticketingDateTime:true }}</td>
-      <td>{{ ticket.assignedTo?.username }}</td>
-      <td>{{ ticket.description }}</td>
-      @if (ticket.ticketStatus !== Ticket.TicketStatusEnum.Closed
-      && ticket.ticketStatus !== Ticket.TicketStatusEnum.Cancelled) {
-        <td>
-          <p-progressBar [value]="getSlaProgress(ticket.createdWhen, ticket.slaHours)"
-                         [showValue]="true"
-                         unit="%">
-          </p-progressBar>
-        </td>
-      } @else {
-        <td></td>
-      }
-
+      <td>{{ ticket.assignedTo?.username || 'Unassigned' }}</td>
+      <td class="description-cell" [title]="ticket.description">{{ ticket.description }}</td>
       <td>
-        <app-ticket-actions [selectedTicket]="ticket" (selectedTicketChange)="onTicketUpdate($event)"  />
+        @if (ticket.ticketStatus !== 'Closed' && ticket.ticketStatus !== 'Cancelled') {
+          <ng-container>
+            <p-progressBar
+              [value]="getSlaProgress(ticket.createdWhen, ticket.slaHours)"
+              [showValue]="true"
+              unit="%">
+            </p-progressBar>
+          </ng-container>
+        } @else {
+          <ng-template>
+            <span class="status-done">—</span>
+          </ng-template>
+        }
       </td>
-
+      <td>
+        <app-ticket-actions [selectedTicket]="ticket"
+                            (selectedTicketChange)="onTicketUpdate($event)">
+        </app-ticket-actions>
+      </td>
     </tr>
   </ng-template>
 </p-table>
-
-
 

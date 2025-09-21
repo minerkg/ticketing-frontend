@@ -1,6 +1,6 @@
 import {Ticket} from '../../../models/ticket/ticket';
 
-export interface TicketFilter {
+export interface TicketStatusFilter {
   name: string;
   predicate: (ticket: Ticket) => boolean;
 }

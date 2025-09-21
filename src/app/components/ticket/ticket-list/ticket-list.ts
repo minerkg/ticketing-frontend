@@ -5,10 +5,18 @@ import {TableModule} from 'primeng/table';
 import {ActivatedRoute} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {ProgressBar} from 'primeng/progressbar';
-import {TicketFilter, TicketFilters} from './filters';
 import {TicketActionsComponent} from '../ticket-actions/ticket-actions.component';
 import {TicketingDateTimePipe} from '../../../shared/ticketing-date-time-pipe';
 import {AuthStore} from '../../../services/auth/auth-store';
+import {Page} from '../../../models/ticket/page';
+import {FormsModule} from '@angular/forms';
+import {Button} from 'primeng/button';
+import {Toolbar} from 'primeng/toolbar';
+import {IconField} from 'primeng/iconfield';
+import {InputIcon} from 'primeng/inputicon';
+import {InputText} from 'primeng/inputtext';
+import {TicketStatusFilter, TicketFilters} from './filters';
+import TicketStatusEnum = Ticket.TicketStatusEnum;
 
 
 @Component({
@@ -17,72 +25,111 @@ import {AuthStore} from '../../../services/auth/auth-store';
     TableModule,
     ProgressBar,
     TicketActionsComponent,
-    TicketingDateTimePipe
+    TicketingDateTimePipe,
+    FormsModule,
+    Button,
+    Toolbar,
+    IconField,
+    InputIcon,
+    InputText,
   ],
   templateUrl: './ticket-list.html',
   styleUrl: './ticket-list.css'
 })
 export class TicketList implements OnInit {
+  tickets = signal<Ticket[]>([]);
+  totalRecords = signal<number>(0);
 
-  allTickets = signal<Ticket[]>([]);
-  filteredTicketList = signal<Ticket[]>([]);
+  page = 0;
+  pageSize = 10;
+  keyword = '';
+  sortBy = 'createdWhen';
+  direction: 'asc' | 'desc' = 'desc';
 
+  status?: string;
+  assignedTo?: string;
 
-  protected readonly Ticket = Ticket;
-  private filter?: TicketFilter;
+  loading = signal<boolean>(false);
+  private routeFilter?: TicketStatusFilter;
 
-  constructor(private ticketService: TicketService,
-              private messageService: MessageService,
-              private route: ActivatedRoute,
-              private authStore: AuthStore,) {
-  }
+  constructor(
+    private ticketService: TicketService,
+    private messageService: MessageService,
+    private route: ActivatedRoute,
+    private authStore: AuthStore
+  ) {}
 
   ngOnInit() {
-    this.ticketService.getAllTickets().subscribe({
-      next: (data: Ticket[]) => {
-        this.allTickets.set([...data]);
-        if (!this.filter) {
-          this.filter = TicketFilters.ALL;
-        }
-        this.route.data.subscribe(data => {
-          const routeFilter = data['filter'];
-          if (typeof routeFilter === 'function') {
-            const userId = this.authStore.loggedInUser()?.id;
-            this.filter = userId ? routeFilter(userId) : TicketFilters.ALL;
-          } else {
-            this.filter = routeFilter ?? TicketFilters.ALL;
-          }
-          this.applyFilter();
-        });
-
-      },
-      error: error => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Fetching ticket failed',
-          detail: ` ${error} could not fetch ticket`
-        })
+    this.route.data.subscribe(data => {
+      const filter = data['filter'];
+      if (typeof filter === 'function') {
+        const userId = this.authStore.loggedInUser()?.id;
+        this.routeFilter = userId ? filter(userId) : TicketFilters.ALL;
+      } else {
+        this.routeFilter = filter ?? TicketFilters.ALL;
       }
-
+      this.applyRouteFilter();
+      this.loadTickets();
     });
   }
 
-  onTicketUpdate(event: any) {
-    this.filteredTicketList
-      .set(this.filteredTicketList()
-        .map(ticket => event.ticketId === ticket.ticketId ? event : ticket));
+  private applyRouteFilter(): void {
+    this.status = '';
+    this.assignedTo = '';
 
+    if (this.routeFilter?.name === TicketFilters.NEW.name) {
+      this.status = TicketStatusEnum.New;
+    } else if (this.routeFilter?.name === TicketFilters.CLOSED.name) {
+      this.status = TicketStatusEnum.Closed;
+    } else if (this.routeFilter?.name === TicketFilters.MY_ASSIGNED('').name) {
+      const userId = this.authStore.loggedInUser()?.id;
+      if (userId) this.assignedTo = userId;
+    }
   }
 
-  private applyFilter(): void {
-    const predicate = this.filter?.predicate ?? (() => true);
-    this.filteredTicketList.set(this.allTickets().filter(predicate));
+  private loadTickets() {
+    this.loading.set(true);
+    console.log(this.page)
+    this.ticketService.getAllTicketsFilteredAndPaged(
+      this.page,
+      this.pageSize,
+      this.keyword,
+      this.sortBy,
+      this.direction,
+      this.status,
+      this.assignedTo
+    ).subscribe({
+      next: (data: Page<Ticket>) => {
+        this.tickets.set(data.content);
+        this.totalRecords.set(data.page.totalElements);
+        this.page = data.page.number;
+        this.pageSize = data.page.size;
+        this.loading.set(false);
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Fetching tickets failed',
+          detail: `${error.err} could not fetch tickets`
+        });
+        this.loading.set(false);
+      }
+    });
   }
 
+  onPageChange(event: any) {
+    this.page = event.first / event.rows;
+    this.pageSize = event.rows;
+    this.loadTickets();
+  }
+
+  onSearch() {
+    this.page = 0;
+    this.loadTickets();
+  }
 
   getSlaProgress(createdWhen: string, slaHours?: number): number {
     if (!slaHours) return 0;
-
     const createdDate = new Date(createdWhen).getTime();
     const now = Date.now();
     const elapsedMs = now - createdDate;
@@ -92,6 +139,14 @@ export class TicketList implements OnInit {
     progress = Math.min(Math.max(progress, 0), 100);
 
     return Math.round(progress * 100) / 100;
+  }
+
+  onTicketUpdate(event: any) {
+    this.tickets.set(
+      this.tickets().map(ticket =>
+        event.ticketId === ticket.ticketId ? event : ticket
+      )
+    );
   }
 
 
